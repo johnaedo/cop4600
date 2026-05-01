@@ -2,24 +2,25 @@
 <html class="no-js" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Course notes, code demos, and tutorials" name="description"/>
+<meta content="A concurrent hash table is a data structure that allows multiple threads to perform operations on a shared collection of key-data pairs, without causing data corruption or inconsistency. The concurrent hash table consists of a linked list of nodes, each of which stores some data associated with the key. The hash value is computed by applying a hash function to the key." name="description"/>
 <meta content="Dr. John Aedo" name="author"/>
-<link href="https://johnaedo.github.io/cop4600/blog/" rel="canonical"/>
-<link href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/" rel="prev"/>
-<link href="../_assets/meta/favicons.png" rel="icon"/>
+<link href="https://johnaedo.github.io/cop4600/Assignments/Concurrent%20Hash%20Table/" rel="canonical"/>
+<link href="../../test/" rel="prev"/>
+<link href="../../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/" rel="next"/>
+<link href="../../_assets/meta/favicons.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>Index - COP 4600 - Operating Systems</title>
-<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<title>Concurrent Hash Table - COP 4600 - Operating Systems</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Karla:300,300i,400,400i,700,700i%7CUbuntu+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Karla";--md-code-font:"Ubuntu Mono"}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-<link href="../_static/css/admonition.css" rel="stylesheet"/>
-<link href="../_static/css/custom_attributes.css" rel="stylesheet"/>
-<link href="../_static/css/customization.css" rel="stylesheet"/>
+<link href="../../_static/css/admonition.css" rel="stylesheet"/>
+<link href="../../_static/css/custom_attributes.css" rel="stylesheet"/>
+<link href="../../_static/css/customization.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/styles.css" rel="stylesheet"/>
-<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 <link href="https://unpkg.com/tippy.js@6/animations/scale-subtle.css" rel="stylesheet"/>
@@ -29,12 +30,12 @@
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" property="og:image"/>
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" name="twitter:image"/>
 <meta content="https://johnaedo.github.io/cop4600/" name="site_url"/>
-<meta content="Blog" property="og:title"/>
-<meta content="Blog" name="twitter:title"/>
-<meta content="Course notes, code demos, and tutorials" name="og:description"/>
-<meta content="Course notes, code demos, and tutorials" name="twitter:description"/>
-<script> document.title = "Blog" </script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+<meta content="Concurrent Hash Table" property="og:title"/>
+<meta content="Concurrent Hash Table" name="twitter:title"/>
+<meta content="A concurrent hash table is a data structure that allows multiple threads to perform operations on a shared collection of key-data pairs, without causing data corruption or inconsistency. The concurrent hash table consists of a linked list of nodes, each of which stores some data associated with the key. The hash value is computed by applying a hash function to the key." name="og:description"/>
+<meta content="A concurrent hash table is a data structure that allows multiple threads to perform operations on a shared collection of key-data pairs, without causing data corruption or inconsistency. The concurrent hash table consists of a linked list of nodes, each of which stores some data associated with the key. The hash value is computed by applying a hash function to the key." name="twitter:description"/>
+<script> document.title = "Concurrent Hash Table" </script>
+<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -50,7 +51,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="..">
+<a class="md-skip" href="../..">
           Skip to content
         </a>
 </div>
@@ -58,8 +59,8 @@
 </div>
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
@@ -74,7 +75,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Index
+              Concurrent Hash Table
             
           </span>
 </div>
@@ -127,7 +128,7 @@
 <div class="md-grid">
 <ul class="md-tabs__list">
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-tabs__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -136,7 +137,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-tabs__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -145,7 +146,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../test/">
+<a class="md-tabs__link" href="../../test/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -153,8 +154,8 @@
 
       </a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -163,7 +164,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<a class="md-tabs__link" href="../../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -172,7 +173,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-tabs__link" href="../../Resources/Useful%20OS%20Links/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -181,7 +182,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-tabs__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -189,8 +190,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item md-tabs__item--active">
-<a class="md-tabs__link" href="./">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../blog/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -210,14 +211,14 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
     COP 4600 - Operating Systems
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-nav__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23a   Immutable Operating Systems
@@ -225,7 +226,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-nav__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23b   Linux cgroups
@@ -233,35 +234,206 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../test/">
+<a class="md-nav__link" href="../../test/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Test
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
-<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Assignments
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
             Assignments
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
+<span class="md-ellipsis">
+    Concurrent Hash Table
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Concurrent Hash Table
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-hash-table-structure">
+<span class="md-ellipsis">
+      
+        The Hash Table Structure
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-command-file">
+<span class="md-ellipsis">
+      
+        The Command File
+      
+    </span>
+</a>
+<nav aria-label="The Command File" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#list-of-commands-and-their-parameters">
+<span class="md-ellipsis">
+      
+        List of Commands and their parameters
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#expected-output">
+<span class="md-ellipsis">
+      
+        Expected Output
+      
+    </span>
+</a>
+<nav aria-label="Expected Output" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commands">
+<span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+</a>
+<nav aria-label="Commands" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples">
+<span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#locks">
+<span class="md-ellipsis">
+      
+        Locks
+      
+    </span>
+</a>
+<nav aria-label="Locks" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples_1">
+<span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-output">
+<span class="md-ellipsis">
+      
+        Data Output
+      
+    </span>
+</a>
+<nav aria-label="Data Output" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#single-record-print-eg-from-search">
+<span class="md-ellipsis">
+      
+        Single Record Print (e.g., from Search)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#list-print">
+<span class="md-ellipsis">
+      
+        List Print
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#final-print">
+<span class="md-ellipsis">
+      
+        Final Print
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#final-deliverables">
+<span class="md-ellipsis">
+      
+        Final Deliverables:
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ai-policy">
+<span class="md-ellipsis">
+      
+        AI Policy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#grading-rubric">
+<span class="md-ellipsis">
+      
+        Grading Rubric
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -282,7 +454,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Appendix B   Virtual Machine Monitors
@@ -290,7 +462,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Chapter%2017%20-%20Allocator%20Policies/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Chapter%2017%20-%20Allocator%20Policies/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Chapter 17   Allocator Policies
@@ -298,7 +470,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2012a%20-%20Dining%20Philosophers/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Lecture%2012a%20-%20Dining%20Philosophers/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 12a   Dining Philosophers
@@ -306,7 +478,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2021%20-%20Docker/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Lecture%2021%20-%20Docker/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 21   Docker
@@ -314,7 +486,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2022%20-%20Software%20Package%20Managers/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Lecture%2022%20-%20Software%20Package%20Managers/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 22   Software Package Managers
@@ -322,7 +494,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2023%20-%20Containerized%20Applications/">
+<a class="md-nav__link" href="../../Lecture%20Slides/Lecture%2023%20-%20Containerized%20Applications/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23   Containerized Applications
@@ -348,7 +520,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-nav__link" href="../../Resources/Useful%20OS%20Links/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Useful OS Links
@@ -374,7 +546,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-nav__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Clock vs LRU
@@ -382,7 +554,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
+<a class="md-nav__link" href="../../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     URE calculations for RAID 5
@@ -392,27 +564,27 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__container">
-<a class="md-nav__link md-nav__link--active" href="./">
+<a class="md-nav__link" href="../../blog/">
 <svg height="18" viewbox="0 0 1024 1024" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M843.5 737.4c-12.4-75.2-79.2-129.1-155.3-125.4S550.9 676 546 752c-153.5-4.8-208-40.7-199.1-113.7c3.3-27.3 19.8-41.9 50.1-49c18.4-4.3 38.8-4.9 57.3-3.2c1.7.2 3.5.3 5.2.5c11.3 2.7 22.8 5 34.3 6.8c34.1 5.6 68.8 8.4 101.8 6.6c92.8-5 156-45.9 159.2-132.7c3.1-84.1-54.7-143.7-147.9-183.6c-29.9-12.8-61.6-22.7-93.3-30.2c-14.3-3.4-26.3-5.7-35.2-7.2c-7.9-75.9-71.5-133.8-147.8-134.4S189.7 168 180.5 243.8s40 146.3 114.2 163.9s149.9-23.3 175.7-95.1c9.4 1.7 18.7 3.6 28 5.8c28.2 6.6 56.4 15.4 82.4 26.6c70.7 30.2 109.3 70.1 107.5 119.9c-1.6 44.6-33.6 65.2-96.2 68.6c-27.5 1.5-57.6-.9-87.3-5.8c-8.3-1.4-15.9-2.8-22.6-4.3c-3.9-.8-6.6-1.5-7.8-1.8l-3.1-.6c-2.2-.3-5.9-.8-10.7-1.3c-25-2.3-52.1-1.5-78.5 4.6c-55.2 12.9-93.9 47.2-101.1 105.8c-15.7 126.2 78.6 184.7 276 188.9c29.1 70.4 106.4 107.9 179.6 87c73.3-20.9 119.3-93.4 106.9-168.6M329.1 345.2c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3M695.6 845c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Blog
   </span>
 </a>
-<label class="md-nav__link md-nav__link--active" for="__nav_8" id="__nav_8_label" tabindex="">
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
             Blog
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="..">
+<a class="md-nav__link" href="../..">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Archive
@@ -437,10 +609,156 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#blog">
+<a class="md-nav__link" href="#the-hash-table-structure">
 <span class="md-ellipsis">
       
-        Blog
+        The Hash Table Structure
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-command-file">
+<span class="md-ellipsis">
+      
+        The Command File
+      
+    </span>
+</a>
+<nav aria-label="The Command File" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#list-of-commands-and-their-parameters">
+<span class="md-ellipsis">
+      
+        List of Commands and their parameters
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#expected-output">
+<span class="md-ellipsis">
+      
+        Expected Output
+      
+    </span>
+</a>
+<nav aria-label="Expected Output" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commands">
+<span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+</a>
+<nav aria-label="Commands" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples">
+<span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#locks">
+<span class="md-ellipsis">
+      
+        Locks
+      
+    </span>
+</a>
+<nav aria-label="Locks" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples_1">
+<span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-output">
+<span class="md-ellipsis">
+      
+        Data Output
+      
+    </span>
+</a>
+<nav aria-label="Data Output" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#single-record-print-eg-from-search">
+<span class="md-ellipsis">
+      
+        Single Record Print (e.g., from Search)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#list-print">
+<span class="md-ellipsis">
+      
+        List Print
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#final-print">
+<span class="md-ellipsis">
+      
+        Final Print
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#final-deliverables">
+<span class="md-ellipsis">
+      
+        Final Deliverables:
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ai-policy">
+<span class="md-ellipsis">
+      
+        AI Policy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#grading-rubric">
+<span class="md-ellipsis">
+      
+        Grading Rubric
       
     </span>
 </a>
@@ -451,11 +769,356 @@
 </div>
 </div>
 <div class="md-content" data-md-component="content">
-<div class="md-content__inner">
-<header class="md-typeset">
-<h2 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">¶</a></h2>
-</header>
+<article class="md-content__inner md-typeset">
+<!--
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<!-- Actions -->
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<h1>Concurrent Hash Table</h1>
+<!-- Page content -->
+<p>A concurrent hash table is a data structure that allows multiple threads to perform operations on a shared collection of key-data pairs, without causing data corruption or inconsistency. The concurrent hash table consists of a linked list of nodes, each of which stores some data associated with the key. The hash value is computed by applying a hash function to the key.</p>
+<p>Note that for this assignment, we will not be taking into consideration hash collisions.  We will use  <a href="https://en.wikipedia.org/wiki/Jenkins_hash_function">Jenkins’s one_at_a_time hash function</a> which has a very low collision rate for the number of hashes we will be working with.  Regardless, your test data and the final data set you will be graded against will be guaranteed collision-free.</p>
+<p>The concurrent hash table supports the following functions:</p>
+<ul>
+<li><code>insert(key, values)</code>: This function inserts a new key-data pair into the hash table, or updates the value of an existing key. To insert a key-data pair, the function first computes the hash value of the key and locates the corresponding entry in the linked list. Then, it acquires the write lock that protects the list and searches the linked list for the key. If the key is found, it updates the value. Otherwise, it creates a new node and inserts it in the list. Finally, it releases the write lock and returns.</li>
+<li><code>delete(key)</code>: This function deletes a key-data pair from the hash table, if it exists. To delete a key-data pair, the function first computes the hash value of the key and locates the corresponding node. Then, it acquires the write lock that protects the list and searches the linked list for the key. If the key is found, it removes the node from the list and frees the memory. Otherwise, it does nothing. Finally, it releases the write lock and returns.</li>
+<li><code>search(key)</code>: This function searches for a key-data pair in the hash table and returns the value, if it exists. To search for a key-data pair, the function first computes the hash value of the key and locates the corresponding node. Then, it acquires the read lock that protects the list and searches the linked list for the key. If the key is found, it returns the value. Otherwise, it returns NULL. Finally, it releases the read lock and returns.  The caller should then print the record or “No Record Found” if the return is NULL.</li>
+</ul>
+<h3 id="the-hash-table-structure">The Hash Table Structure<a class="headerlink" href="#the-hash-table-structure" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">hash_struct</span>
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="p">{</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">hash</span><span class="p">;</span>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">salary</span><span class="p">;</span>
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">hash_struct</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="p">}</span><span class="w"> </span><span class="n">hashRecord</span><span class="p">;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hash</td>
+<td>32-bit unsigned integer for the hash value produced by running the name text through the <a href="https://en.wikipedia.org/wiki/Jenkins_hash_function">Jenkins one-at-a-time function</a></td>
+</tr>
+<tr>
+<td>name</td>
+<td>Arbitrary string up to 50 characters long</td>
+</tr>
+<tr>
+<td>salary</td>
+<td>32-bit unsigned integer (who wants a negative salary, eh?) to represent an annual salary.</td>
+</tr>
+<tr>
+<td>next</td>
+<td>pointer to the next node in the list</td>
+</tr>
+<tr>
+<td>## Reader-Writer Lock Reference</td>
+<td></td>
+</tr>
+<tr>
+<td>The OSTEP authors have provided sample implementations that you should reference:</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://github.com/remzi-arpacidusseau/ostep-code/tree/master/threads-sema">https://github.com/remzi-arpacidusseau/ostep-code/tree/master/threads-sema</a></p>
+<p><em>Note:</em></p>
+<ul>
+<li>You will also need to grab <code>common.h</code> and <code>common_threads.h</code> from here:<ul>
+<li><a href="https://github.com/remzi-arpacidusseau/ostep-code/tree/master/include">https://github.com/remzi-arpacidusseau/ostep-code/tree/master/include</a></li>
+</ul>
+</li>
+<li>Sample Reader-Writer locks implementation is here:<ul>
+<li><a href="https://github.com/remzi-arpacidusseau/ostep-code/blob/master/threads-sema/rwlock.c">https://github.com/remzi-arpacidusseau/ostep-code/blob/master/threads-sema/rwlock.c</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="the-command-file">The Command File<a class="headerlink" href="#the-command-file" title="Permanent link">¶</a></h2>
+<p>Your program must read a text file called <code>commands.txt</code> containing some configuration information, commands, and data values.  Do not read it from the console.  You should hard code <code>"commands.txt"</code> into your program.</p>
+<h3 id="list-of-commands-and-their-parameters">List of Commands and their parameters<a class="headerlink" href="#list-of-commands-and-their-parameters" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>threads</td>
+<td>\&lt;number of threads&gt;,0</td>
+<td>The number of commands to be processed in the file.  This allows you to setup a dynamic array of <code>pthread_t</code> structs.  This is always the first line of the command file.</td>
+</tr>
+<tr>
+<td>insert</td>
+<td>\&lt;name&gt;,\&lt;salary&gt;</td>
+<td>inserts or updates the data for the given name and salary value.</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>\&lt;name&gt;,0</td>
+<td>Name whose record is to be deleted from the list.</td>
+</tr>
+<tr>
+<td>search</td>
+<td>\&lt;name&gt;,0</td>
+<td>Name whose record is to be retrieved and printed to the screen.</td>
+</tr>
+<tr>
+<td>print</td>
+<td>0,0</td>
+<td>Print the entire contents of the list to the screen.</td>
+</tr>
+<tr>
+<td>### Sample File</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>threads,11,0
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>insert,Richard Garriot,40000
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>insert,Sid Meier,50000
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>insert,Shigeru Miyamoto,51000
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>insert,Hideo Kojima,45000
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>insert,Gabe Newell,49000
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>insert,Roberta Williams,45900
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>insert,Carol Shaw,41000
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>print,0,0
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>search,Shigeru Miyamoto,0
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>delete,Sid Meier,0
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>print,0,0
+</code></pre></div>
+<h2 id="expected-output">Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">¶</a></h2>
+<p>Output should be written to a file called <code>output.txt</code> in the same directory as the main <code>chash</code> program and the <code>commands.txt</code> file.</p>
+<h3 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">¶</a></h3>
+<p>Write out each command as they’re executed, along with their parameters in this format:<br/>
+INSERT,Name,Salary</p>
+<h4 id="examples">Examples:<a class="headerlink" href="#examples" title="Permanent link">¶</a></h4>
+<p><code>INSERT,John Doe,45000</code><br/>
+<code>DELETE,John Doe</code><br/>
+<code>SEARCH,John Doe</code></p>
+<h3 id="locks">Locks<a class="headerlink" href="#locks" title="Permanent link">¶</a></h3>
+<p>Write out when locks are acquired and released along with the lock type:</p>
+<h4 id="examples_1">Examples:<a class="headerlink" href="#examples_1" title="Permanent link">¶</a></h4>
+<p><code>READ LOCK ACQUIRED</code><br/>
+<code>READ LOCK RELEASED</code><br/>
+<code>WRITE LOCK ACQUIRED</code><br/>
+<code>WRITE LOCK RELEASED</code></p>
+<h3 id="data-output">Data Output<a class="headerlink" href="#data-output" title="Permanent link">¶</a></h3>
+<h4 id="single-record-print-eg-from-search">Single Record Print (e.g., from Search)<a class="headerlink" href="#single-record-print-eg-from-search" title="Permanent link">¶</a></h4>
+<p>Print the hash value, name, and salary:<br/>
+<code>36474636,John Doe,45000</code></p>
+<h4 id="list-print">List Print<a class="headerlink" href="#list-print" title="Permanent link">¶</a></h4>
+<p>Use the single record print for each record:<br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>53958970,John Doe,50000
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>60118794,Jane Doe,41000
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>71650320,Bob Smith,45900
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>595880477,Jennifer Brown,49000
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>3139972584,Shin Xi,45000
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>4030153111,Rocky Lancaster,51000
+</code></pre></div><p></p>
+<p><em>The list should be sorted by the hash value.</em></p>
+<h3 id="final-print">Final Print<a class="headerlink" href="#final-print" title="Permanent link">¶</a></h3>
+<p>After the final command, print a blank line and the following summary information:<br/>
+Number of lock acquisition and release operations and the contents of the table after all operations are completed:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>Number of lock acquisitions: 12
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>Number of lock releases: 12
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>Final Table:
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>53958970,John Doe,50000
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>60118794,Jane Doe,41000
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>71650320,Bob Smith,45900
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>595880477,Jennifer Brown,49000
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>3139972584,Shin Xi,45000
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>4030153111,Rocky Lancaster,51000
+</code></pre></div>
+<h2 id="final-deliverables">Final Deliverables:<a class="headerlink" href="#final-deliverables" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Filename</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chash.c</td>
+<td>Your main program that reads the commands.txt and produces output to the console</td>
+</tr>
+<tr>
+<td>hashdb.h</td>
+<td>Your Concurrent Hash Table struct definitions</td>
+</tr>
+<tr>
+<td>hashdb.c</td>
+<td>Your Concurrent Hash Table implementation, including your Jenkins function and all linked list operations</td>
+</tr>
+<tr>
+<td>rwlocks.h</td>
+<td>Your Reader-Writer locks struct definitions</td>
+</tr>
+<tr>
+<td>rwlocks.c</td>
+<td>Your Reader-Writer locks implementation</td>
+</tr>
+<tr>
+<td>common.h</td>
+<td>If you used OSTEP’s sample code, please include it.</td>
+</tr>
+<tr>
+<td>common_threads.h</td>
+<td>same.</td>
+</tr>
+<tr>
+<td>Makefile</td>
+<td>Your Makefile that builds this project into the final executable</td>
+</tr>
+<tr>
+<td>README.txt</td>
+<td>Use for anything I or my graders need to know and the AI use citation (see below)</td>
+</tr>
+<tr>
+<td>All of these should be uploaded <em>as a single zip file</em> containing all of the files.</td>
+<td></td>
+</tr>
+<tr>
+<td>We should be able to:</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Unzip your file.</li>
+<li>Run <code>make</code> to compile it into the main executable <code>chash</code></li>
+<li>Your program will read <code>commands.txt</code> and then produce <code>output.txt</code></li>
+</ul>
+<h2 id="ai-policy">AI Policy<a class="headerlink" href="#ai-policy" title="Permanent link">¶</a></h2>
+<p>When using AI assistants, please adhere to the following policies and suggestions:</p>
+<ul>
+<li><strong>Put Effort into Crafting High-Quality Prompts:</strong> Tools like ChatGPT and CoPilot, while useful, have serious limitations, and hence are often incorrect. If you provide minimum effort prompts, you will get low quality results. You will need to refine your prompts in order to get good outcomes. This will take concerted effort.</li>
+<li><strong>Be Aware of AI Limitations:</strong> Even if you have crafted well-constructed prompts, do not blindly trust anything an AI assistant tool says or outputs. If it gives a snippet of code, number, or fact, assume that it is wrong unless you either know it to be correct or check it with another source. You are responsible for any errors or omissions provided by the tool, and these tools tend to work best for topics you fully understand.</li>
+<li><strong>Give the AI Tool Proper Attribution:</strong> AI is a tool, and one that you must acknowledge using. Thus, you must provide these tools proper attribution if you use them for assignments. As such, you are required to provide a paragraph or two either in a comment or in the README file explaining what you used the AI for, and what prompts you used to get the results. Failure to do this will result in a violation of UCF Academic Integrity policies.</li>
+<li><strong>Know When to Use and Not Use AI Tools</strong> Be thoughtful about when AI tools are useful and when they are not. Don’t use the tool if it isn’t appropriate, or if you do not have full grasp of a given concept from class.</li>
+</ul>
+<p><code>credit to Dr. Kevin Moran for this succinct summary of AI use policy!</code></p>
+<h2 id="grading-rubric">Grading Rubric<a class="headerlink" href="#grading-rubric" title="Permanent link">¶</a></h2>
+<p>100 points total</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Description</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compiles</td>
+<td>Code compiles successfully.  Failure to compile results in a zero grade for the assignment.</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Runs to Completion</td>
+<td>Program reads in the command file and produces output.  Failure to produce any output or immediate error results in zero grade for the assignment.</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Correctly Inserts into the Hash Table</td>
+<td>- Hash correctly computed (3 pts)<br/>- Data correctly inserted into Hash Table (2 pts)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Correctly Deletes Records from the Hash Table</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>Correctly Searches for Names in the Hash Table</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>Correctly Prints Single Records</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>Correctly Prints the Entire Hash Table</td>
+<td>- Prints the table: 2 points<br/>- Prints the table in sorted order: 3 points</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Lock Messages are Printed</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>Lock and Unlock Occur as Expected</td>
+<td>- While writing, no other thread may read or write. (10 pts)<br/>- While reading, no other thread may write, other reads are allowed (10 pts).<br/>- No writes are allowed until all readers are complete (10 pts)</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Final Output Matches the Test Final Output</td>
+<td>- Correct Number of locks acquired and released (15 pts)<br/>- Correct entries in the table (15 pts):<br/>  - In the correct order (5 pts)<br/>  - Individual records match Test output (10 pts) <br/></td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<div class="md-source-file">
+<small>
+<!-- mkdocs-git-revision-date-localized-plugin -->
+<u>Last update</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+<!-- mkdocs-git-revision-date-plugin -->
+<br/>
+<u>Created</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+</small>
 </div>
+<!-- Was this page helpful? -->
+<!-- Comment system -->
+<script> 
+    try {
+      const index = document.querySelector('h1').innerHTML;
+      if (index === "Index") {
+        document.querySelector('h1').innerHTML = "Concurrent Hash Table";
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  </script>
+</article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
 </div>
@@ -487,12 +1150,13 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
-<script src="../_static/js/mathjax.js"></script>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../_static/js/mathjax.js"></script>
 <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script src="../_static/js/snippets.js"></script>
+<script src="../../_static/js/snippets.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/index.js"></script>
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html>
+</script></body></html><!-- Source file information --><!-- taken from 
+https://github.com/squidfunk/mkdocs-material/blob/master/src/partials/source-file.html -->

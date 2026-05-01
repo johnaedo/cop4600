@@ -2,13 +2,14 @@
 <html class="no-js" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Course notes, code demos, and tutorials" name="description"/>
+<meta content="Linux control groups (cgroups) are a kernel feature that lets you limit, isolate, and monitor the resource usage of processes. They’re essential to modern container runtimes (Docker, Kubernetes), systemd, and many server environments." name="description"/>
 <meta content="Dr. John Aedo" name="author"/>
-<link href="https://johnaedo.github.io/cop4600/blog/" rel="canonical"/>
-<link href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/" rel="prev"/>
+<link href="https://johnaedo.github.io/cop4600/Lecture%2023b%20-%20Linux%20cgroups/" rel="canonical"/>
+<link href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/" rel="prev"/>
+<link href="../test/" rel="next"/>
 <link href="../_assets/meta/favicons.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>Index - COP 4600 - Operating Systems</title>
+<title>Lecture 23b Linux cgroups - COP 4600 - Operating Systems</title>
 <link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -29,11 +30,11 @@
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" property="og:image"/>
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" name="twitter:image"/>
 <meta content="https://johnaedo.github.io/cop4600/" name="site_url"/>
-<meta content="Blog" property="og:title"/>
-<meta content="Blog" name="twitter:title"/>
-<meta content="Course notes, code demos, and tutorials" name="og:description"/>
-<meta content="Course notes, code demos, and tutorials" name="twitter:description"/>
-<script> document.title = "Blog" </script>
+<meta content="Lecture 23b   Linux cgroups" property="og:title"/>
+<meta content="Lecture 23b   Linux cgroups" name="twitter:title"/>
+<meta content="Linux control groups (cgroups) are a kernel feature that lets you limit, isolate, and monitor the resource usage of processes. They’re essential to modern container runtimes (Docker, Kubernetes), systemd, and many server environments." name="og:description"/>
+<meta content="Linux control groups (cgroups) are a kernel feature that lets you limit, isolate, and monitor the resource usage of processes. They’re essential to modern container runtimes (Docker, Kubernetes), systemd, and many server environments." name="twitter:description"/>
+<script> document.title = "Lecture 23b   Linux cgroups" </script>
 <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
@@ -74,7 +75,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Index
+              Lecture 23b   Linux cgroups
             
           </span>
 </div>
@@ -135,8 +136,8 @@
 
       </a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -189,8 +190,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item md-tabs__item--active">
-<a class="md-tabs__link" href="./">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../blog/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -224,13 +225,211 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
+<span class="md-ellipsis">
+    Lecture 23b   Linux cgroups
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23b   Linux cgroups
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-what-cgroups-are">
+<span class="md-ellipsis">
+      
+        🧩 1. What cgroups are
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-how-cgroups-work">
+<span class="md-ellipsis">
+      
+        ⚙️ 2. How cgroups work
+      
+    </span>
+</a>
+<nav aria-label="⚙️ 2. How cgroups work" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview-of-components">
+<span class="md-ellipsis">
+      
+        Overview of components:
+      
+    </span>
+</a>
+<nav aria-label="Overview of components:" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroup-hierarchy">
+<span class="md-ellipsis">
+      
+        • Cgroup hierarchy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#controllers">
+<span class="md-ellipsis">
+      
+        • Controllers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroup-filesystem">
+<span class="md-ellipsis">
+      
+        • Cgroup filesystem
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-the-kernel-enforces-limits">
+<span class="md-ellipsis">
+      
+        • How the kernel enforces limits
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21-example-how-a-memory-limit-works">
+<span class="md-ellipsis">
+      
+        🧱 2.1 Example: How a memory limit works
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22-cgroups-v2">
+<span class="md-ellipsis">
+      
+        🔀 2.2 cgroups v2
+      
+    </span>
+</a>
+<nav aria-label="🔀 2.2 cgroups v2" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroups-v2">
+<span class="md-ellipsis">
+      
+        cgroups v2
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-how-cgroups-are-used">
+<span class="md-ellipsis">
+      
+        🛠️ 3. How cgroups are used
+      
+    </span>
+</a>
+<nav aria-label="🛠️ 3. How cgroups are used" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31-containers-docker-podman-kubernetes">
+<span class="md-ellipsis">
+      
+        3.1 Containers (Docker / Podman / Kubernetes)
+      
+    </span>
+</a>
+<nav aria-label="3.1 Containers (Docker / Podman / Kubernetes)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#example-docker-run">
+<span class="md-ellipsis">
+      
+        Example docker run:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#32-systemd">
+<span class="md-ellipsis">
+      
+        3.2 systemd
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#33-direct-cli-usage-manual">
+<span class="md-ellipsis">
+      
+        3.3 Direct CLI usage (manual)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#34-kubernetes">
+<span class="md-ellipsis">
+      
+        3.4 Kubernetes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#35-high-performance-systems-servers">
+<span class="md-ellipsis">
+      
+        3.5 High-performance systems / servers
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#summary">
+<span class="md-ellipsis">
+      
+        🧠 Summary
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../test/">
@@ -392,20 +591,20 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__container">
-<a class="md-nav__link md-nav__link--active" href="./">
+<a class="md-nav__link" href="../blog/">
 <svg height="18" viewbox="0 0 1024 1024" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M843.5 737.4c-12.4-75.2-79.2-129.1-155.3-125.4S550.9 676 546 752c-153.5-4.8-208-40.7-199.1-113.7c3.3-27.3 19.8-41.9 50.1-49c18.4-4.3 38.8-4.9 57.3-3.2c1.7.2 3.5.3 5.2.5c11.3 2.7 22.8 5 34.3 6.8c34.1 5.6 68.8 8.4 101.8 6.6c92.8-5 156-45.9 159.2-132.7c3.1-84.1-54.7-143.7-147.9-183.6c-29.9-12.8-61.6-22.7-93.3-30.2c-14.3-3.4-26.3-5.7-35.2-7.2c-7.9-75.9-71.5-133.8-147.8-134.4S189.7 168 180.5 243.8s40 146.3 114.2 163.9s149.9-23.3 175.7-95.1c9.4 1.7 18.7 3.6 28 5.8c28.2 6.6 56.4 15.4 82.4 26.6c70.7 30.2 109.3 70.1 107.5 119.9c-1.6 44.6-33.6 65.2-96.2 68.6c-27.5 1.5-57.6-.9-87.3-5.8c-8.3-1.4-15.9-2.8-22.6-4.3c-3.9-.8-6.6-1.5-7.8-1.8l-3.1-.6c-2.2-.3-5.9-.8-10.7-1.3c-25-2.3-52.1-1.5-78.5 4.6c-55.2 12.9-93.9 47.2-101.1 105.8c-15.7 126.2 78.6 184.7 276 188.9c29.1 70.4 106.4 107.9 179.6 87c73.3-20.9 119.3-93.4 106.9-168.6M329.1 345.2c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3M695.6 845c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Blog
   </span>
 </a>
-<label class="md-nav__link md-nav__link--active" for="__nav_8" id="__nav_8_label" tabindex="">
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
             Blog
@@ -437,10 +636,183 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#blog">
+<a class="md-nav__link" href="#1-what-cgroups-are">
 <span class="md-ellipsis">
       
-        Blog
+        🧩 1. What cgroups are
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-how-cgroups-work">
+<span class="md-ellipsis">
+      
+        ⚙️ 2. How cgroups work
+      
+    </span>
+</a>
+<nav aria-label="⚙️ 2. How cgroups work" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview-of-components">
+<span class="md-ellipsis">
+      
+        Overview of components:
+      
+    </span>
+</a>
+<nav aria-label="Overview of components:" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroup-hierarchy">
+<span class="md-ellipsis">
+      
+        • Cgroup hierarchy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#controllers">
+<span class="md-ellipsis">
+      
+        • Controllers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroup-filesystem">
+<span class="md-ellipsis">
+      
+        • Cgroup filesystem
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-the-kernel-enforces-limits">
+<span class="md-ellipsis">
+      
+        • How the kernel enforces limits
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21-example-how-a-memory-limit-works">
+<span class="md-ellipsis">
+      
+        🧱 2.1 Example: How a memory limit works
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22-cgroups-v2">
+<span class="md-ellipsis">
+      
+        🔀 2.2 cgroups v2
+      
+    </span>
+</a>
+<nav aria-label="🔀 2.2 cgroups v2" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cgroups-v2">
+<span class="md-ellipsis">
+      
+        cgroups v2
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-how-cgroups-are-used">
+<span class="md-ellipsis">
+      
+        🛠️ 3. How cgroups are used
+      
+    </span>
+</a>
+<nav aria-label="🛠️ 3. How cgroups are used" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31-containers-docker-podman-kubernetes">
+<span class="md-ellipsis">
+      
+        3.1 Containers (Docker / Podman / Kubernetes)
+      
+    </span>
+</a>
+<nav aria-label="3.1 Containers (Docker / Podman / Kubernetes)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#example-docker-run">
+<span class="md-ellipsis">
+      
+        Example docker run:
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#32-systemd">
+<span class="md-ellipsis">
+      
+        3.2 systemd
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#33-direct-cli-usage-manual">
+<span class="md-ellipsis">
+      
+        3.3 Direct CLI usage (manual)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#34-kubernetes">
+<span class="md-ellipsis">
+      
+        3.4 Kubernetes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#35-high-performance-systems-servers">
+<span class="md-ellipsis">
+      
+        3.5 High-performance systems / servers
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#summary">
+<span class="md-ellipsis">
+      
+        🧠 Summary
       
     </span>
 </a>
@@ -451,11 +823,314 @@
 </div>
 </div>
 <div class="md-content" data-md-component="content">
-<div class="md-content__inner">
-<header class="md-typeset">
-<h2 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">¶</a></h2>
-</header>
+<article class="md-content__inner md-typeset">
+<!--
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<!-- Actions -->
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<!-- Page content -->
+<p>Linux <strong>control groups</strong> (<em>cgroups</em>) are a kernel feature that lets you <strong>limit, isolate, and monitor</strong> the resource usage of processes. They’re essential to modern container runtimes (Docker, Kubernetes), systemd, and many server environments.</p>
+<p>Below is a clear explanation of:</p>
+<ol>
+<li>
+<p><strong>What cgroups are</strong></p>
+</li>
+<li>
+<p><strong>How they work (architecture &amp; mechanics)</strong></p>
+</li>
+<li>
+<p><strong>How they are used in practice</strong></p>
+</li>
+</ol>
+<hr/>
+<h2 id="1-what-cgroups-are">🧩 1. What cgroups are<a class="headerlink" href="#1-what-cgroups-are" title="Permanent link">¶</a></h2>
+<p><strong>cgroups</strong> (introduced by the Linux kernel in 2007) allow you to apply resource controls to a set of processes.<br/>
+They let you:</p>
+<ul>
+<li>
+<p><strong>Limit</strong> – e.g., cap CPU or memory usage</p>
+</li>
+<li>
+<p><strong>Prioritize</strong> – give some processes more resources</p>
+</li>
+<li>
+<p><strong>Account</strong> – measure how much CPU/memory I/O a group used</p>
+</li>
+<li>
+<p><strong>Isolate</strong> – keep groups from interfering with each other</p>
+</li>
+<li>
+<p><strong>Freeze/thaw</strong> – pause and resume groups of processes</p>
+</li>
+</ul>
+<p>They work by organizing processes into <strong>hierarchies</strong> where <strong>controllers</strong> enforce specific kinds of limits.</p>
+<hr/>
+<h2 id="2-how-cgroups-work">⚙️ 2. How cgroups work<a class="headerlink" href="#2-how-cgroups-work" title="Permanent link">¶</a></h2>
+<h3 id="overview-of-components">Overview of components:<a class="headerlink" href="#overview-of-components" title="Permanent link">¶</a></h3>
+<h4 id="cgroup-hierarchy"><strong>• Cgroup hierarchy</strong><a class="headerlink" href="#cgroup-hierarchy" title="Permanent link">¶</a></h4>
+<p>A <em>hierarchy</em> is a tree of cgroups.<br/>
+Every process belongs to exactly one cgroup per hierarchy.</p>
+<p>In practice, with cgroups v2, there is <strong>one unified hierarchy</strong>.</p>
+<hr/>
+<h4 id="controllers"><strong>• Controllers</strong><a class="headerlink" href="#controllers" title="Permanent link">¶</a></h4>
+<p>Controllers enforce resource rules. Common controllers:</p>
+<table>
+<thead>
+<tr>
+<th>Controller</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cpu</code> / <code>cpuacct</code></td>
+<td>Limit CPU usage / track CPU stats</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>Limit RAM, swap; send OOM events</td>
+</tr>
+<tr>
+<td><code>blkio</code> or <code>io</code></td>
+<td>Limit disk I/O throughput</td>
+</tr>
+<tr>
+<td><code>pids</code></td>
+<td>Limit number of processes</td>
+</tr>
+<tr>
+<td><code>cpuset</code></td>
+<td>Bind processes to CPUs/NUMA nodes</td>
+</tr>
+<tr>
+<td><code>net_cls</code> / <code>net_prio</code></td>
+<td>Network tagging / priority</td>
+</tr>
+<tr>
+<td><code>freezer</code></td>
+<td>Freeze processes</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h4 id="cgroup-filesystem"><strong>• Cgroup filesystem</strong><a class="headerlink" href="#cgroup-filesystem" title="Permanent link">¶</a></h4>
+<p>Mounted at something like:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>/sys/fs/cgroup
+</code></pre></div>
+<p>Each cgroup is represented as a directory.<br/>
+Manipulating files inside the directory <strong>configures</strong> and <strong>monitors</strong> resources.</p>
+<hr/>
+<h3 id="how-the-kernel-enforces-limits"><strong>• How the kernel enforces limits</strong><a class="headerlink" href="#how-the-kernel-enforces-limits" title="Permanent link">¶</a></h3>
+<p>When a controller applies a limit, the kernel checks the limit during resource allocation:</p>
+<ul>
+<li>
+<p>For CPU, the scheduler throttles tasks that exceed their quota.</p>
+</li>
+<li>
+<p>For memory, if the group exceeds its limit, the kernel triggers cgroup-specific OOM handling.</p>
+</li>
+<li>
+<p>For I/O, access to block devices is queued proportionally.</p>
+</li>
+</ul>
+<hr/>
+<h1 id="21-example-how-a-memory-limit-works">🧱 2.1 Example: How a memory limit works<a class="headerlink" href="#21-example-how-a-memory-limit-works" title="Permanent link">¶</a></h1>
+<p>If you create a memory-limited cgroup:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>echo 100M &gt; /sys/fs/cgroup/mygroup/memory.max
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>echo &lt;pid&gt; &gt; /sys/fs/cgroup/mygroup/cgroup.procs
+</code></pre></div>
+<p>Then the kernel:</p>
+<ul>
+<li>
+<p>Tracks all memory allocations for processes in the group</p>
+</li>
+<li>
+<p>Denies new allocations when the limit is exceeded</p>
+</li>
+<li>
+<p>Sends an OOM event or kills processes in that cgroup</p>
+</li>
+</ul>
+<p>This enforcement is entirely done inside kernel subsystems.</p>
+<hr/>
+<h1 id="22-cgroups-v2">🔀 2.2 cgroups v2<a class="headerlink" href="#22-cgroups-v2" title="Permanent link">¶</a></h1>
+<h3 id="cgroups-v2"><strong>cgroups v2</strong><a class="headerlink" href="#cgroups-v2" title="Permanent link">¶</a></h3>
+<ul>
+<li>
+<p>Single unified hierarchy</p>
+</li>
+<li>
+<p>Cleaner API</p>
+</li>
+<li>
+<p>Better memory+I/O semantics</p>
+</li>
+<li>
+<p>Fully used by systemd and modern containers</p>
+</li>
+</ul>
+<p>Example directories (v2):</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>/sys/fs/cgroup/
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>  ├── user.slice/
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>  ├── system.slice/
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>  └── docker/
+</code></pre></div>
+<hr/>
+<h1 id="3-how-cgroups-are-used">🛠️ 3. How cgroups are used<a class="headerlink" href="#3-how-cgroups-are-used" title="Permanent link">¶</a></h1>
+<h2 id="31-containers-docker-podman-kubernetes">3.1 <strong>Containers (Docker / Podman / Kubernetes)</strong><a class="headerlink" href="#31-containers-docker-podman-kubernetes" title="Permanent link">¶</a></h2>
+<p>Containers rely heavily on cgroups:</p>
+<ul>
+<li>
+<p>To <strong>limit CPU/memory</strong> (<code>--memory</code>, <code>--cpus</code>)</p>
+</li>
+<li>
+<p>To isolate processes per container</p>
+</li>
+<li>
+<p>To provide metrics for orchestration</p>
+</li>
+</ul>
+<hr/>
+<h3 id="example-docker-run">Example docker run:<a class="headerlink" href="#example-docker-run" title="Permanent link">¶</a></h3>
+<ul>
+<li>Docker writes these values into cgroup files automatically.<br/>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--memory<span class="o">=</span>256m<span class="w"> </span>--cpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>nginx
+</code></pre></div></li>
+</ul>
+<hr/>
+<h2 id="32-systemd">3.2 <strong>systemd</strong><a class="headerlink" href="#32-systemd" title="Permanent link">¶</a></h2>
+<p>systemd creates a cgroup for:</p>
+<ul>
+<li>
+<p>Each service (<code>/sys/fs/cgroup/system.slice/nginx.service</code>)</p>
+</li>
+<li>
+<p>Each user session</p>
+</li>
+<li>
+<p>The entire system tree hierarchy</p>
+</li>
+</ul>
+<p>Resource limits in <code>/etc/systemd/system/my.service</code> become cgroup settings:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>[Service]
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>MemoryMax=500M
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>CPUQuota=50%
+</code></pre></div>
+<hr/>
+<h2 id="33-direct-cli-usage-manual">3.3 <strong>Direct CLI usage (manual)</strong><a class="headerlink" href="#33-direct-cli-usage-manual" title="Permanent link">¶</a></h2>
+<p>You can manually create and use cgroups using:</p>
+<ul>
+<li>
+<p><code>systemd-run</code> (preferred on modern distros)</p>
+</li>
+<li>
+<p>Direct writing into <code>/sys/fs/cgroup</code></p>
+</li>
+</ul>
+<hr/>
+<h2 id="34-kubernetes">3.4 <strong>Kubernetes</strong><a class="headerlink" href="#34-kubernetes" title="Permanent link">¶</a></h2>
+<p>Pod resource requests and limits map directly to cgroup settings:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>resources:
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>  limits:
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>    memory: "512Mi"
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>    cpu: "2"
+</code></pre></div>
+<p>The kubelet writes those settings into cgroup files for each pod container.</p>
+<hr/>
+<h2 id="35-high-performance-systems-servers">3.5 <strong>High-performance systems / servers</strong><a class="headerlink" href="#35-high-performance-systems-servers" title="Permanent link">¶</a></h2>
+<p>cgroups help:</p>
+<ul>
+<li>
+<p>Guarantee resources for critical services</p>
+</li>
+<li>
+<p>Throttle batch jobs</p>
+</li>
+<li>
+<p>Collect per-job usage statistics</p>
+</li>
+</ul>
+<hr/>
+<h1 id="summary">🧠 Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h1>
+<p><strong>Cgroups = kernel-level resource control frameworks.</strong><br/>
+They work by organizing processes into hierarchies where <strong>controllers</strong> enforce CPU, memory, and I/O limits.</p>
+<p><strong>Used By:</strong></p>
+<ul>
+<li>
+<p>Docker, Kubernetes, LXC</p>
+</li>
+<li>
+<p>systemd</p>
+</li>
+<li>
+<p>HPC clusters</p>
+</li>
+<li>
+<p>Direct CLI usage</p>
+</li>
+</ul>
+<p>They provide isolation and enforce strict limits—making them foundational to Linux containers.</p>
+<hr/>
+<p>If you’d like, I can also explain:</p>
+<ul>
+<li>
+<p>cgroups v2 API and key files (<code>cgroup.procs</code>, <code>memory.max</code>, etc.)</p>
+</li>
+<li>
+<p>A step-by-step tutorial for creating your own cgroup</p>
+</li>
+<li>
+<p>How cgroups relate to namespaces (complete container explanation)</p>
+</li>
+</ul>
+<hr/>
+<div class="md-source-file">
+<small>
+<!-- mkdocs-git-revision-date-localized-plugin -->
+<u>Last update</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+<!-- mkdocs-git-revision-date-plugin -->
+<br/>
+<u>Created</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+</small>
 </div>
+<!-- Was this page helpful? -->
+<!-- Comment system -->
+<script> 
+    try {
+      const index = document.querySelector('h1').innerHTML;
+      if (index === "Index") {
+        document.querySelector('h1').innerHTML = "Lecture 23b   Linux cgroups";
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  </script>
+</article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
 </div>
@@ -495,4 +1170,5 @@
 <script src="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/index.js"></script>
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html>
+</script></body></html><!-- Source file information --><!-- taken from 
+https://github.com/squidfunk/mkdocs-material/blob/master/src/partials/source-file.html -->

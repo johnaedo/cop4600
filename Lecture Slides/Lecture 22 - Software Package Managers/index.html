@@ -4,22 +4,23 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="Course notes, code demos, and tutorials" name="description"/>
 <meta content="Dr. John Aedo" name="author"/>
-<link href="https://johnaedo.github.io/cop4600/blog/" rel="canonical"/>
-<link href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/" rel="prev"/>
-<link href="../_assets/meta/favicons.png" rel="icon"/>
+<link href="https://johnaedo.github.io/cop4600/Lecture%20Slides/Lecture%2022%20-%20Software%20Package%20Managers/" rel="canonical"/>
+<link href="../Lecture%2021%20-%20Docker/" rel="prev"/>
+<link href="../Lecture%2023%20-%20Containerized%20Applications/" rel="next"/>
+<link href="../../_assets/meta/favicons.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>Index - COP 4600 - Operating Systems</title>
-<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<title>Lecture 22 Software Package Managers - COP 4600 - Operating Systems</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Karla:300,300i,400,400i,700,700i%7CUbuntu+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Karla";--md-code-font:"Ubuntu Mono"}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-<link href="../_static/css/admonition.css" rel="stylesheet"/>
-<link href="../_static/css/custom_attributes.css" rel="stylesheet"/>
-<link href="../_static/css/customization.css" rel="stylesheet"/>
+<link href="../../_static/css/admonition.css" rel="stylesheet"/>
+<link href="../../_static/css/custom_attributes.css" rel="stylesheet"/>
+<link href="../../_static/css/customization.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/styles.css" rel="stylesheet"/>
-<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 <link href="https://unpkg.com/tippy.js@6/animations/scale-subtle.css" rel="stylesheet"/>
@@ -29,12 +30,12 @@
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" property="og:image"/>
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" name="twitter:image"/>
 <meta content="https://johnaedo.github.io/cop4600/" name="site_url"/>
-<meta content="Blog" property="og:title"/>
-<meta content="Blog" name="twitter:title"/>
+<meta content="Lecture 22   Software Package Managers" property="og:title"/>
+<meta content="Lecture 22   Software Package Managers" name="twitter:title"/>
 <meta content="Course notes, code demos, and tutorials" name="og:description"/>
 <meta content="Course notes, code demos, and tutorials" name="twitter:description"/>
-<script> document.title = "Blog" </script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+<script> document.title = "Lecture 22   Software Package Managers" </script>
+<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -50,7 +51,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="..">
+<a class="md-skip" href="../..">
           Skip to content
         </a>
 </div>
@@ -58,8 +59,8 @@
 </div>
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
@@ -74,7 +75,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Index
+              Lecture 22   Software Package Managers
             
           </span>
 </div>
@@ -127,7 +128,7 @@
 <div class="md-grid">
 <ul class="md-tabs__list">
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-tabs__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -136,7 +137,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-tabs__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -145,7 +146,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../test/">
+<a class="md-tabs__link" href="../../test/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -154,7 +155,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<a class="md-tabs__link" href="../../Assignments/Concurrent%20Hash%20Table/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -162,8 +163,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -172,7 +173,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-tabs__link" href="../../Resources/Useful%20OS%20Links/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -181,7 +182,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-tabs__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -189,8 +190,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item md-tabs__item--active">
-<a class="md-tabs__link" href="./">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../blog/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -210,14 +211,14 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
     COP 4600 - Operating Systems
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-nav__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23a   Immutable Operating Systems
@@ -225,7 +226,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-nav__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23b   Linux cgroups
@@ -233,7 +234,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../test/">
+<a class="md-nav__link" href="../../test/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Test
@@ -256,7 +257,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<a class="md-nav__link" href="../../Assignments/Concurrent%20Hash%20Table/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Concurrent Hash Table
@@ -266,23 +267,23 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Lecture Slides
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_5">
 <span class="md-nav__icon md-icon"></span>
             Lecture Slides
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<a class="md-nav__link" href="../Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Appendix B   Virtual Machine Monitors
@@ -290,7 +291,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Chapter%2017%20-%20Allocator%20Policies/">
+<a class="md-nav__link" href="../Chapter%2017%20-%20Allocator%20Policies/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Chapter 17   Allocator Policies
@@ -298,7 +299,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2012a%20-%20Dining%20Philosophers/">
+<a class="md-nav__link" href="../Lecture%2012a%20-%20Dining%20Philosophers/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 12a   Dining Philosophers
@@ -306,23 +307,267 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2021%20-%20Docker/">
+<a class="md-nav__link" href="../Lecture%2021%20-%20Docker/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 21   Docker
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2022%20-%20Software%20Package%20Managers/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
+<span class="md-ellipsis">
+    Lecture 22   Software Package Managers
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 22   Software Package Managers
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#questions-answered-in-this-lecture">
+<span class="md-ellipsis">
+      
+        Questions Answered in this Lecture
+      
+    </span>
+</a>
+<nav aria-label="Questions Answered in this Lecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-installation-the-old-way">
+<span class="md-ellipsis">
+      
+        Software Installation, The Old Way
+      
+    </span>
+</a>
+<nav aria-label="Software Installation, The Old Way" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#unix">
+<span class="md-ellipsis">
+      
+        UNIX
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2023%20-%20Containerized%20Applications/">
+<a class="md-nav__link" href="#software-installation-the-old-way_1">
+<span class="md-ellipsis">
+      
+        Software Installation, The Old Way
+      
+    </span>
+</a>
+<nav aria-label="Software Installation, The Old Way" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ms-dos">
+<span class="md-ellipsis">
+      
+        MS-DOS
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-installers">
+<span class="md-ellipsis">
+      
+        Software Installers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-mess-on-windows">
+<span class="md-ellipsis">
+      
+        The Mess on Windows
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#uninstalling">
+<span class="md-ellipsis">
+      
+        Uninstalling!
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#packages-what-if">
+<span class="md-ellipsis">
+      
+        Packages… What If?…
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#components-of-a-package">
+<span class="md-ellipsis">
+      
+        Components of a Package
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-repositories">
+<span class="md-ellipsis">
+      
+        Package Repositories
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-repositories-unofficial">
+<span class="md-ellipsis">
+      
+        Package Repositories (unofficial)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dependency-management">
+<span class="md-ellipsis">
+      
+        Dependency Management
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#other-relationships">
+<span class="md-ellipsis">
+      
+        Other Relationships
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#version-management">
+<span class="md-ellipsis">
+      
+        Version Management
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-usage">
+<span class="md-ellipsis">
+      
+        Package Manager Usage
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-vs-installer">
+<span class="md-ellipsis">
+      
+        Package Manager vs Installer
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-vs-app-store">
+<span class="md-ellipsis">
+      
+        Package Manager vs. App Store
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-risks">
+<span class="md-ellipsis">
+      
+        Package Manager Risks
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#advantages-of-package-managers">
+<span class="md-ellipsis">
+      
+        Advantages of Package Managers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disadvantages-of-package-managers">
+<span class="md-ellipsis">
+      
+        Disadvantages of Package Managers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dependency-hell">
+<span class="md-ellipsis">
+      
+        Dependency Hell
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#containerized-applications">
+<span class="md-ellipsis">
+      
+        Containerized Applications
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-future-of-operating-systems">
+<span class="md-ellipsis">
+      
+        The Future of Operating Systems?
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Lecture%2023%20-%20Containerized%20Applications/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23   Containerized Applications
@@ -348,7 +593,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-nav__link" href="../../Resources/Useful%20OS%20Links/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Useful OS Links
@@ -374,7 +619,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-nav__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Clock vs LRU
@@ -382,7 +627,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
+<a class="md-nav__link" href="../../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     URE calculations for RAID 5
@@ -392,27 +637,27 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__container">
-<a class="md-nav__link md-nav__link--active" href="./">
+<a class="md-nav__link" href="../../blog/">
 <svg height="18" viewbox="0 0 1024 1024" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M843.5 737.4c-12.4-75.2-79.2-129.1-155.3-125.4S550.9 676 546 752c-153.5-4.8-208-40.7-199.1-113.7c3.3-27.3 19.8-41.9 50.1-49c18.4-4.3 38.8-4.9 57.3-3.2c1.7.2 3.5.3 5.2.5c11.3 2.7 22.8 5 34.3 6.8c34.1 5.6 68.8 8.4 101.8 6.6c92.8-5 156-45.9 159.2-132.7c3.1-84.1-54.7-143.7-147.9-183.6c-29.9-12.8-61.6-22.7-93.3-30.2c-14.3-3.4-26.3-5.7-35.2-7.2c-7.9-75.9-71.5-133.8-147.8-134.4S189.7 168 180.5 243.8s40 146.3 114.2 163.9s149.9-23.3 175.7-95.1c9.4 1.7 18.7 3.6 28 5.8c28.2 6.6 56.4 15.4 82.4 26.6c70.7 30.2 109.3 70.1 107.5 119.9c-1.6 44.6-33.6 65.2-96.2 68.6c-27.5 1.5-57.6-.9-87.3-5.8c-8.3-1.4-15.9-2.8-22.6-4.3c-3.9-.8-6.6-1.5-7.8-1.8l-3.1-.6c-2.2-.3-5.9-.8-10.7-1.3c-25-2.3-52.1-1.5-78.5 4.6c-55.2 12.9-93.9 47.2-101.1 105.8c-15.7 126.2 78.6 184.7 276 188.9c29.1 70.4 106.4 107.9 179.6 87c73.3-20.9 119.3-93.4 106.9-168.6M329.1 345.2c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3M695.6 845c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Blog
   </span>
 </a>
-<label class="md-nav__link md-nav__link--active" for="__nav_8" id="__nav_8_label" tabindex="">
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
             Blog
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="..">
+<a class="md-nav__link" href="../..">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Archive
@@ -437,10 +682,229 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#blog">
+<a class="md-nav__link" href="#questions-answered-in-this-lecture">
 <span class="md-ellipsis">
       
-        Blog
+        Questions Answered in this Lecture
+      
+    </span>
+</a>
+<nav aria-label="Questions Answered in this Lecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-installation-the-old-way">
+<span class="md-ellipsis">
+      
+        Software Installation, The Old Way
+      
+    </span>
+</a>
+<nav aria-label="Software Installation, The Old Way" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#unix">
+<span class="md-ellipsis">
+      
+        UNIX
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-installation-the-old-way_1">
+<span class="md-ellipsis">
+      
+        Software Installation, The Old Way
+      
+    </span>
+</a>
+<nav aria-label="Software Installation, The Old Way" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ms-dos">
+<span class="md-ellipsis">
+      
+        MS-DOS
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#software-installers">
+<span class="md-ellipsis">
+      
+        Software Installers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-mess-on-windows">
+<span class="md-ellipsis">
+      
+        The Mess on Windows
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#uninstalling">
+<span class="md-ellipsis">
+      
+        Uninstalling!
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#packages-what-if">
+<span class="md-ellipsis">
+      
+        Packages… What If?…
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#components-of-a-package">
+<span class="md-ellipsis">
+      
+        Components of a Package
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-repositories">
+<span class="md-ellipsis">
+      
+        Package Repositories
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-repositories-unofficial">
+<span class="md-ellipsis">
+      
+        Package Repositories (unofficial)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dependency-management">
+<span class="md-ellipsis">
+      
+        Dependency Management
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#other-relationships">
+<span class="md-ellipsis">
+      
+        Other Relationships
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#version-management">
+<span class="md-ellipsis">
+      
+        Version Management
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-usage">
+<span class="md-ellipsis">
+      
+        Package Manager Usage
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-vs-installer">
+<span class="md-ellipsis">
+      
+        Package Manager vs Installer
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-vs-app-store">
+<span class="md-ellipsis">
+      
+        Package Manager vs. App Store
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-manager-risks">
+<span class="md-ellipsis">
+      
+        Package Manager Risks
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#advantages-of-package-managers">
+<span class="md-ellipsis">
+      
+        Advantages of Package Managers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disadvantages-of-package-managers">
+<span class="md-ellipsis">
+      
+        Disadvantages of Package Managers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dependency-hell">
+<span class="md-ellipsis">
+      
+        Dependency Hell
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#containerized-applications">
+<span class="md-ellipsis">
+      
+        Containerized Applications
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-future-of-operating-systems">
+<span class="md-ellipsis">
+      
+        The Future of Operating Systems?
       
     </span>
 </a>
@@ -451,11 +915,279 @@
 </div>
 </div>
 <div class="md-content" data-md-component="content">
-<div class="md-content__inner">
-<header class="md-typeset">
-<h2 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">¶</a></h2>
-</header>
+<article class="md-content__inner md-typeset">
+<!--
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<!-- Actions -->
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<h1>Lecture 22   Software Package Managers</h1>
+<!-- Page content -->
+<h3 id="questions-answered-in-this-lecture">Questions Answered in this Lecture<a class="headerlink" href="#questions-answered-in-this-lecture" title="Permanent link">¶</a></h3>
+<ul>
+<li>How do we add new software to a system?</li>
+<li>How do packages help with software management?</li>
+<li>What role does the repository play in software management?</li>
+<li>What issues remain to be solved?</li>
+<li>What’s the future of software management?</li>
+</ul>
+<hr/>
+<h4 id="software-installation-the-old-way">Software Installation, The Old Way<a class="headerlink" href="#software-installation-the-old-way" title="Permanent link">¶</a></h4>
+<h5 id="unix">UNIX<a class="headerlink" href="#unix" title="Permanent link">¶</a></h5>
+<p><code>tar -xvf software.tar /usr/local/bin</code></p>
+<ul>
+<li>tar file : <em>TAPE Archive</em></li>
+<li>Files delivered uncompressed, “taped” together</li>
+<li>Later we got Z and GZip compression</li>
+</ul>
+<hr/>
+<h4 id="software-installation-the-old-way_1">Software Installation, The Old Way<a class="headerlink" href="#software-installation-the-old-way_1" title="Permanent link">¶</a></h4>
+<h5 id="ms-dos">MS-DOS<a class="headerlink" href="#ms-dos" title="Permanent link">¶</a></h5>
+<p></p><div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>MKDIR C:\MYPROGRAM
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>A:
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>COPY *.* C:\PROGRAM
+</code></pre></div><br/>
+Often conveniently automated via Batch Files/Batch Scripts<p></p>
+<hr/>
+<h2 id="software-installers">Software Installers<a class="headerlink" href="#software-installers" title="Permanent link">¶</a></h2>
+<ul>
+<li>Software gets more complex, more files, more target directories.<ul>
+<li>/usr/local/bin</li>
+<li>/usr/local/lib</li>
+<li>/etc/myconfig.conf</li>
+</ul>
+</li>
+<li>Software also needs initial configuration<ul>
+<li>Where do we store this configuration?</li>
+</ul>
+</li>
+<li>What about dependent libraries?  Where do these go?</li>
+</ul>
+<hr/>
+<h2 id="the-mess-on-windows">The Mess on Windows<a class="headerlink" href="#the-mess-on-windows" title="Permanent link">¶</a></h2>
+<ul>
+<li>C:\Program Files</li>
+<li>
+<p>C:\My Documents</p>
+</li>
+<li>
+<p><strong>The Registry</strong></p>
+</li>
+<li>
+<p>%APPDATA%</p>
+</li>
+<li>C:\ProgramData</li>
+</ul>
+<hr/>
+<h2 id="uninstalling">Uninstalling!<a class="headerlink" href="#uninstalling" title="Permanent link">¶</a></h2>
+<ul>
+<li>No consistent method for removing software</li>
+<li>Deleting files isn’t enough!<ul>
+<li>Registry entries</li>
+<li>Configuration files</li>
+<li>User data?</li>
+<li>Libraries?</li>
+</ul>
+</li>
+<li>Windows has tried (and largely failed) to standardize software installations<ul>
+<li>Legacy software remains a problem</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="packages-what-if">Packages… What If?…<a class="headerlink" href="#packages-what-if" title="Permanent link">¶</a></h2>
+<ul>
+<li>We had standardized destination locations for software?</li>
+<li>We could handle dependencies in a rational manner?</li>
+<li>We had a mechanism that could properly uninstall software?</li>
+<li>This mechanism was well-documented and openly available to ALL developers for a platform?<br/>
+Packages can do all of this because it fully standardizes the entire software installation, update, and uninstall lifecycle.</li>
+</ul>
+<hr/>
+<h2 id="components-of-a-package">Components of a Package<a class="headerlink" href="#components-of-a-package" title="Permanent link">¶</a></h2>
+<ul>
+<li>Application / library files<ul>
+<li>These can either be binary or source code files, depending on the package manager.  </li>
+</ul>
+</li>
+<li>Metadata<ul>
+<li>Contains information about the package itself, including its author, version,  dependencies, etc.  </li>
+</ul>
+</li>
+<li>Cryptographic keys<ul>
+<li>Used to ensure that this package was created by the listed author, and that the<br/>
+installed files have maintained its integrity.  </li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="package-repositories">Package Repositories<a class="headerlink" href="#package-repositories" title="Permanent link">¶</a></h2>
+<ul>
+<li>Storage Location for software packages  </li>
+<li>Official repositories are often protected against malware</li>
+<li>Official packages often have requirements to ensure quality, and cryptographic keys verify integrity and authentication.  </li>
+<li>Official repositories are often split by package type (core vs. extra) or version (stable vs. experimental).  </li>
+<li>Official repositories often have many mirrors for fast downloads.</li>
+</ul>
+<hr/>
+<h2 id="package-repositories-unofficial">Package Repositories (unofficial)<a class="headerlink" href="#package-repositories-unofficial" title="Permanent link">¶</a></h2>
+<ul>
+<li>Unofficial repositories are community-managed and open to submission.<ul>
+<li>Arch User Repository (AUR)</li>
+<li>Personal Package Archives (PPA, Ubuntu)</li>
+<li>Community Projects (CoPr, Fedoraa)</li>
+</ul>
+</li>
+<li>Available software is much more vast (esp. AUR)</li>
+<li>Packages are not vetted as well, may contain malware.</li>
+<li>Often not supported by the original developer</li>
+</ul>
+<hr/>
+<h2 id="dependency-management">Dependency Management<a class="headerlink" href="#dependency-management" title="Permanent link">¶</a></h2>
+<ul>
+<li>Software packages have dependencies, other packages that need to be installed for a package to function properly.  </li>
+<li>These dependencies often have version requirements that ensure that the required package functions as expected.</li>
+</ul>
+<hr/>
+<h2 id="other-relationships">Other Relationships<a class="headerlink" href="#other-relationships" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Conflict</strong>: Two packages do not function around each other. One will need to be removed for the other to work properly.  </li>
+<li><strong>Provide</strong>: A package that is installed by another package for use by a user. Virtual packages (a package that has no files) often implements this relationship.  </li>
+<li><strong>Suggest</strong>: A package that works well with or improves the functionality of the package.  </li>
+<li><strong>Replace</strong>: A package that provides the functionality of another package without providing it. </li>
+</ul>
+<hr/>
+<h2 id="version-management">Version Management<a class="headerlink" href="#version-management" title="Permanent link">¶</a></h2>
+<ul>
+<li>The version number of each package is kept in its metadata. The format of this value is usually kept consistent within a repository.</li>
+<li>Used to ensure that the the user can access latest version of the software, and that packages can access the version of its requirements that allows it to work.  </li>
+<li>It’s up to the package maintainer to ensure that the package works with the most recent version of its dependencies</li>
+</ul>
+<hr/>
+<h2 id="package-manager-usage">Package Manager Usage<a class="headerlink" href="#package-manager-usage" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Install</strong> </li>
+<li><strong>Search</strong> (locally installed packages or packages available on the repository)  </li>
+<li><strong>Update</strong>  (individual packages or the entire system)</li>
+<li><strong>Remove</strong> (uninstall)</li>
+<li><strong>Purge</strong> (more thorough Remove, deletes config files and user data)</li>
+</ul>
+<hr/>
+<h2 id="package-manager-vs-installer">Package Manager vs Installer<a class="headerlink" href="#package-manager-vs-installer" title="Permanent link">¶</a></h2>
+<ul>
+<li>Application installer is similar to a package, as it handles the installation of a piece of software, its dependencies, and its configuration, and often sets up methods to upgrade and uninstall its application.  </li>
+<li>However, it is developed for a specific application, limits its scope to that specific application, and often does not share libraries with other applications.</li>
+</ul>
+<hr/>
+<h2 id="package-manager-vs-app-store">Package Manager vs. App Store<a class="headerlink" href="#package-manager-vs-app-store" title="Permanent link">¶</a></h2>
+<ul>
+<li>App stores are similar to package managers, but are often designed by software vendors, include methods to accept payment, and often only provide applications.</li>
+</ul>
+<hr/>
+<h2 id="package-manager-risks">Package Manager Risks<a class="headerlink" href="#package-manager-risks" title="Permanent link">¶</a></h2>
+<ul>
+<li>Official repositories often use different forms of quality control to<br/>
+ensure that the software packages it provides are safe to use,<br/>
+but broken software and malware can still creep in.  </li>
+<li>An example of this is the ethers-provider2 npm package1, which<br/>
+was recently discovered to contain a reverse shell (attackers<br/>
+can remotely execute code on host machine)  </li>
+</ul>
+<hr/>
+<h2 id="advantages-of-package-managers">Advantages of Package Managers<a class="headerlink" href="#advantages-of-package-managers" title="Permanent link">¶</a></h2>
+<ul>
+<li>Provides a service to easily and quickly install applications and libraries.  </li>
+<li>Allows for updating multiple applications at once.  </li>
+<li>Allows installed libraries to be shared, reducing applications spacial cost.  </li>
+<li>Allows for the ability to automate the installation of applications.  </li>
+</ul>
+<hr/>
+<h2 id="disadvantages-of-package-managers">Disadvantages of Package Managers<a class="headerlink" href="#disadvantages-of-package-managers" title="Permanent link">¶</a></h2>
+<p>Difficult to use for people with less computer experience.<br/>
+Packages may interfere with one another, affecting their ability to function.<br/>
+Depending on the package manager, improper usage may impede the computer’s ability to function.<br/>
+Repository may not be comprehensive, may be missing some software.</p>
+<hr/>
+<h2 id="dependency-hell">Dependency Hell<a class="headerlink" href="#dependency-hell" title="Permanent link">¶</a></h2>
+<ul>
+<li>Packages don’t completely solve the dependency problems since software development isn’t synchronized.<ul>
+<li>Package X requires Library Y version 2.0, but upgrading Library Y will break Package Z</li>
+</ul>
+</li>
+<li>Package and Repository Maintenance is labor-intensive</li>
+<li>Ordinary packages don’t run in isolation, often having access to the entire system</li>
+</ul>
+<hr/>
+<h2 id="containerized-applications">Containerized Applications<a class="headerlink" href="#containerized-applications" title="Permanent link">¶</a></h2>
+<ul>
+<li>Storage is cheap, why don’t we ship applications with ALL of their dependencies?</li>
+<li>Modern systems have containerization mechanisms allowing applications to run in isolation with select privileges.</li>
+<li>Current popular formats:<ul>
+<li>Flatpaks</li>
+<li>Snaps</li>
+<li>AppImages</li>
+</ul>
+</li>
+<li>More next lecture!</li>
+</ul>
+<hr/>
+<h2 id="the-future-of-operating-systems">The Future of Operating Systems?<a class="headerlink" href="#the-future-of-operating-systems" title="Permanent link">¶</a></h2>
+<ul>
+<li>Immutable/Atomic Operating Systems<ul>
+<li>Core system software is read-only and atomically updated.</li>
+<li>Each update creates a snapshot, failed updates can be rolled back</li>
+<li>User Applications run in containers</li>
+</ul>
+</li>
+<li>Examples: Fedora Silverblue, Bazzite, NixOS, VanillaOS, Ubuntu Core</li>
+</ul>
+<hr/>
+<div class="md-source-file">
+<small>
+<!-- mkdocs-git-revision-date-localized-plugin -->
+<u>Last update</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+<!-- mkdocs-git-revision-date-plugin -->
+<br/>
+<u>Created</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+</small>
 </div>
+<!-- Was this page helpful? -->
+<!-- Comment system -->
+<script> 
+    try {
+      const index = document.querySelector('h1').innerHTML;
+      if (index === "Index") {
+        document.querySelector('h1').innerHTML = "Lecture 22   Software Package Managers";
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  </script>
+</article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
 </div>
@@ -487,12 +1219,13 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
-<script src="../_static/js/mathjax.js"></script>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../_static/js/mathjax.js"></script>
 <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script src="../_static/js/snippets.js"></script>
+<script src="../../_static/js/snippets.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/index.js"></script>
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html>
+</script></body></html><!-- Source file information --><!-- taken from 
+https://github.com/squidfunk/mkdocs-material/blob/master/src/partials/source-file.html -->

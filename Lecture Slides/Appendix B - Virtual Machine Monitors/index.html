@@ -4,22 +4,23 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="Course notes, code demos, and tutorials" name="description"/>
 <meta content="Dr. John Aedo" name="author"/>
-<link href="https://johnaedo.github.io/cop4600/blog/" rel="canonical"/>
-<link href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/" rel="prev"/>
-<link href="../_assets/meta/favicons.png" rel="icon"/>
+<link href="https://johnaedo.github.io/cop4600/Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/" rel="canonical"/>
+<link href="../../Assignments/Concurrent%20Hash%20Table/" rel="prev"/>
+<link href="../Chapter%2017%20-%20Allocator%20Policies/" rel="next"/>
+<link href="../../_assets/meta/favicons.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>Index - COP 4600 - Operating Systems</title>
-<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<title>Appendix B Virtual Machine Monitors - COP 4600 - Operating Systems</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Karla:300,300i,400,400i,700,700i%7CUbuntu+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Karla";--md-code-font:"Ubuntu Mono"}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-<link href="../_static/css/admonition.css" rel="stylesheet"/>
-<link href="../_static/css/custom_attributes.css" rel="stylesheet"/>
-<link href="../_static/css/customization.css" rel="stylesheet"/>
+<link href="../../_static/css/admonition.css" rel="stylesheet"/>
+<link href="../../_static/css/custom_attributes.css" rel="stylesheet"/>
+<link href="../../_static/css/customization.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/styles.css" rel="stylesheet"/>
-<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 <link href="https://unpkg.com/tippy.js@6/animations/scale-subtle.css" rel="stylesheet"/>
@@ -29,12 +30,12 @@
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" property="og:image"/>
 <meta content="https://johnaedo.github.io/cop4600/_assets/meta/logo.png" name="twitter:image"/>
 <meta content="https://johnaedo.github.io/cop4600/" name="site_url"/>
-<meta content="Blog" property="og:title"/>
-<meta content="Blog" name="twitter:title"/>
+<meta content="Appendix B   Virtual Machine Monitors" property="og:title"/>
+<meta content="Appendix B   Virtual Machine Monitors" name="twitter:title"/>
 <meta content="Course notes, code demos, and tutorials" name="og:description"/>
 <meta content="Course notes, code demos, and tutorials" name="twitter:description"/>
-<script> document.title = "Blog" </script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+<script> document.title = "Appendix B   Virtual Machine Monitors" </script>
+<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -50,7 +51,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="..">
+<a class="md-skip" href="../..">
           Skip to content
         </a>
 </div>
@@ -58,8 +59,8 @@
 </div>
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-header__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
@@ -74,7 +75,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Index
+              Appendix B   Virtual Machine Monitors
             
           </span>
 </div>
@@ -127,7 +128,7 @@
 <div class="md-grid">
 <ul class="md-tabs__list">
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-tabs__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -136,7 +137,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-tabs__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -145,7 +146,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../test/">
+<a class="md-tabs__link" href="../../test/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -154,7 +155,7 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<a class="md-tabs__link" href="../../Assignments/Concurrent%20Hash%20Table/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -162,8 +163,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -172,7 +173,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-tabs__link" href="../../Resources/Useful%20OS%20Links/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -181,7 +182,7 @@
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-tabs__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -189,8 +190,8 @@
 
         </a>
 </li>
-<li class="md-tabs__item md-tabs__item--active">
-<a class="md-tabs__link" href="./">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../blog/">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
     
   
@@ -210,14 +211,14 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href=".." title="COP 4600 - Operating Systems">
-<img alt="logo" src="../_assets/meta/logo.png"/>
+<a aria-label="COP 4600 - Operating Systems" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="COP 4600 - Operating Systems">
+<img alt="logo" src="../../_assets/meta/logo.png"/>
 </a>
     COP 4600 - Operating Systems
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
+<a class="md-nav__link" href="../../Lecture%2023a%20-%20Immutable%20Operating%20Systems/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23a   Immutable Operating Systems
@@ -225,7 +226,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%2023b%20-%20Linux%20cgroups/">
+<a class="md-nav__link" href="../../Lecture%2023b%20-%20Linux%20cgroups/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23b   Linux cgroups
@@ -233,7 +234,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../test/">
+<a class="md-nav__link" href="../../test/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Test
@@ -256,7 +257,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Assignments/Concurrent%20Hash%20Table/">
+<a class="md-nav__link" href="../../Assignments/Concurrent%20Hash%20Table/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Concurrent Hash Table
@@ -266,31 +267,163 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Lecture Slides
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_5">
 <span class="md-nav__icon md-icon"></span>
             Lecture Slides
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Appendix%20B%20-%20Virtual%20Machine%20Monitors/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
+<span class="md-ellipsis">
+    Appendix B   Virtual Machine Monitors
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Appendix B   Virtual Machine Monitors
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#introduction-to-virtual-machine-monitors">
+<span class="md-ellipsis">
+      
+        Introduction to Virtual Machine Monitors
+      
+    </span>
+</a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Chapter%2017%20-%20Allocator%20Policies/">
+<a class="md-nav__link" href="#memory-virtualization-and-advanced-topics">
+<span class="md-ellipsis">
+      
+        Memory Virtualization and Advanced Topics
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#types-of-virtualization">
+<span class="md-ellipsis">
+      
+        Types of Virtualization
+      
+    </span>
+</a>
+<nav aria-label="Types of Virtualization" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#paravirtualization-relationship">
+<span class="md-ellipsis">
+      
+        Paravirtualization Relationship
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-considerations">
+<span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples">
+<span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+</a>
+<nav aria-label="Examples" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#type-1-virtualization">
+<span class="md-ellipsis">
+      
+        Type 1 Virtualization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#type-2-virtualization">
+<span class="md-ellipsis">
+      
+        Type 2 Virtualization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#paravirtualization-examples">
+<span class="md-ellipsis">
+      
+        Paravirtualization Examples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emulation-examples">
+<span class="md-ellipsis">
+      
+        Emulation Examples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#real-world-hybrid-implementations">
+<span class="md-ellipsis">
+      
+        Real-World Hybrid Implementations
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#virtualization-vs-emulation">
+<span class="md-ellipsis">
+      
+        Virtualization vs Emulation
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Chapter%2017%20-%20Allocator%20Policies/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Chapter 17   Allocator Policies
@@ -298,7 +431,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2012a%20-%20Dining%20Philosophers/">
+<a class="md-nav__link" href="../Lecture%2012a%20-%20Dining%20Philosophers/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 12a   Dining Philosophers
@@ -306,7 +439,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2021%20-%20Docker/">
+<a class="md-nav__link" href="../Lecture%2021%20-%20Docker/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 21   Docker
@@ -314,7 +447,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2022%20-%20Software%20Package%20Managers/">
+<a class="md-nav__link" href="../Lecture%2022%20-%20Software%20Package%20Managers/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 22   Software Package Managers
@@ -322,7 +455,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Lecture%20Slides/Lecture%2023%20-%20Containerized%20Applications/">
+<a class="md-nav__link" href="../Lecture%2023%20-%20Containerized%20Applications/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Lecture 23   Containerized Applications
@@ -348,7 +481,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Resources/Useful%20OS%20Links/">
+<a class="md-nav__link" href="../../Resources/Useful%20OS%20Links/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Useful OS Links
@@ -374,7 +507,7 @@
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/Clock%20vs%20LRU/">
+<a class="md-nav__link" href="../../Supplementary%20Material/Clock%20vs%20LRU/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     Clock vs LRU
@@ -382,7 +515,7 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
+<a class="md-nav__link" href="../../Supplementary%20Material/URE%20calculations%20for%20RAID%205/">
 <svg fill="currentColor" height="16px" viewbox="0 0 24 24" width="16px" xmlns="http://www.w3.org/2000/svg"><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg>
 <span class="md-ellipsis">
     URE calculations for RAID 5
@@ -392,27 +525,27 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__container">
-<a class="md-nav__link md-nav__link--active" href="./">
+<a class="md-nav__link" href="../../blog/">
 <svg height="18" viewbox="0 0 1024 1024" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M843.5 737.4c-12.4-75.2-79.2-129.1-155.3-125.4S550.9 676 546 752c-153.5-4.8-208-40.7-199.1-113.7c3.3-27.3 19.8-41.9 50.1-49c18.4-4.3 38.8-4.9 57.3-3.2c1.7.2 3.5.3 5.2.5c11.3 2.7 22.8 5 34.3 6.8c34.1 5.6 68.8 8.4 101.8 6.6c92.8-5 156-45.9 159.2-132.7c3.1-84.1-54.7-143.7-147.9-183.6c-29.9-12.8-61.6-22.7-93.3-30.2c-14.3-3.4-26.3-5.7-35.2-7.2c-7.9-75.9-71.5-133.8-147.8-134.4S189.7 168 180.5 243.8s40 146.3 114.2 163.9s149.9-23.3 175.7-95.1c9.4 1.7 18.7 3.6 28 5.8c28.2 6.6 56.4 15.4 82.4 26.6c70.7 30.2 109.3 70.1 107.5 119.9c-1.6 44.6-33.6 65.2-96.2 68.6c-27.5 1.5-57.6-.9-87.3-5.8c-8.3-1.4-15.9-2.8-22.6-4.3c-3.9-.8-6.6-1.5-7.8-1.8l-3.1-.6c-2.2-.3-5.9-.8-10.7-1.3c-25-2.3-52.1-1.5-78.5 4.6c-55.2 12.9-93.9 47.2-101.1 105.8c-15.7 126.2 78.6 184.7 276 188.9c29.1 70.4 106.4 107.9 179.6 87c73.3-20.9 119.3-93.4 106.9-168.6M329.1 345.2c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3M695.6 845c-46 0-83.3-37.3-83.3-83.3s37.3-83.3 83.3-83.3s83.3 37.3 83.3 83.3s-37.3 83.3-83.3 83.3" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Blog
   </span>
 </a>
-<label class="md-nav__link md-nav__link--active" for="__nav_8" id="__nav_8_label" tabindex="">
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
             Blog
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="..">
+<a class="md-nav__link" href="../..">
 <svg height="18" viewbox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5v6.604l1.5-2.6a3 3 0 0 1 2.599-1.5H15V7.5A1.5 1.5 0 0 0 13.5 6h-4a.5.5 0 0 1-.353-.146L7.44 4.146A.5.5 0 0 0 7.086 4H4.5A1.5 1.5 0 0 0 3 5.5m1.284 10.485q.106.015.22.015H13.9a2 2 0 0 0 1.732-1l2.163-3.745a1.5 1.5 0 0 0-1.3-2.25H7.1a2 2 0 0 0-1.732 1L3.205 13.75a1.5 1.5 0 0 0 1.079 2.235M2 14.46V5.5A2.5 2.5 0 0 1 4.5 3h2.586a1.5 1.5 0 0 1 1.06.44L9.708 5H13.5A2.5 2.5 0 0 1 16 7.5v.505h.496c1.925 0 3.128 2.083 2.166 3.75L16.499 15.5a3 3 0 0 1-2.598 1.5h-9.4q-.095 0-.186-.007a2.46 2.46 0 0 1-1.438-.592A2.5 2.5 0 0 1 2 14.461" fill="currentColor"></path></svg>
 <span class="md-ellipsis">
     Archive
@@ -437,13 +570,120 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#blog">
+<a class="md-nav__link" href="#introduction-to-virtual-machine-monitors">
 <span class="md-ellipsis">
       
-        Blog
+        Introduction to Virtual Machine Monitors
       
     </span>
 </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#memory-virtualization-and-advanced-topics">
+<span class="md-ellipsis">
+      
+        Memory Virtualization and Advanced Topics
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#types-of-virtualization">
+<span class="md-ellipsis">
+      
+        Types of Virtualization
+      
+    </span>
+</a>
+<nav aria-label="Types of Virtualization" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#paravirtualization-relationship">
+<span class="md-ellipsis">
+      
+        Paravirtualization Relationship
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-considerations">
+<span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#examples">
+<span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+</a>
+<nav aria-label="Examples" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#type-1-virtualization">
+<span class="md-ellipsis">
+      
+        Type 1 Virtualization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#type-2-virtualization">
+<span class="md-ellipsis">
+      
+        Type 2 Virtualization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#paravirtualization-examples">
+<span class="md-ellipsis">
+      
+        Paravirtualization Examples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emulation-examples">
+<span class="md-ellipsis">
+      
+        Emulation Examples
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#real-world-hybrid-implementations">
+<span class="md-ellipsis">
+      
+        Real-World Hybrid Implementations
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#virtualization-vs-emulation">
+<span class="md-ellipsis">
+      
+        Virtualization vs Emulation
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -451,11 +691,275 @@
 </div>
 </div>
 <div class="md-content" data-md-component="content">
-<div class="md-content__inner">
-<header class="md-typeset">
-<h2 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">¶</a></h2>
-</header>
+<article class="md-content__inner md-typeset">
+<!--
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<!-- Actions -->
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<!-- Page content -->
+<h3 id="introduction-to-virtual-machine-monitors">Introduction to Virtual Machine Monitors<a class="headerlink" href="#introduction-to-virtual-machine-monitors" title="Permanent link">¶</a></h3>
+<hr/>
+<p><strong>Virtual Machine Monitors (VMMs)</strong></p>
+<ul>
+<li>Also known as hypervisors</li>
+<li>Sits between operating systems and hardware</li>
+<li>Creates illusion that each OS controls the machine</li>
+<li>Manages multiple OS instances on single hardware</li>
+</ul>
+<hr/>
+<p><strong>Historical Context</strong><br/>
+- Originally developed by IBM for mainframes<br/>
+- Problem: Running different OS versions simultaneously<br/>
+- Solution: Add virtualization layer (VMM)<br/>
+- Recent revival led by Stanford researchers (Disco project)</p>
+<hr/>
+<p><strong>Why VMMs? Modern Use Cases</strong><br/>
+- Resource utilization optimization <br/>
+    - Server consolidation<br/>
+- Desktop virtualization<br/>
+- Cross-platform testing<br/>
+- Development environments</p>
+<hr/>
+<p><strong>Basic VMM Architecture</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>Hardware
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>    ↑
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>VMM (Hypervisor)
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>    ↑
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>OS 1    OS 2    OS 3
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a> ↑       ↑       ↑
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>Apps    Apps    Apps
+</code></pre></div><p></p>
+<hr/>
+<p><strong>CPU Virtualization</strong><br/>
+- Uses limited direct execution<br/>
+- <em>Machine switching</em> between VMs<br/>
+- Similar to OS context switching<br/>
+- Must save/restore entire machine state</p>
+<hr/>
+<p><strong>Privileged Operations</strong><br/>
+- OS cannot directly execute privileged instructions<br/>
+- VMM must intercept privileged operations<br/>
+- Maintains control over hardware<br/>
+- Example: System calls</p>
+<hr/>
+<p><strong>System Call Flow (Traditional)</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>1. USER: Process executes trap instruction
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>2. HARDWARE: Switch to kernel mode
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>3. HARDWARE: Jump to OS trap handler
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>4. OS: Handle system call
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>5. OS: Return to user mode
+</code></pre></div><p></p>
+<hr/>
+<p><strong>System Call Flow (Virtualized)</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>1. USER: Process executes trap instruction
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>2. VMM: Intercept trap
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>3. VMM: Forward to OS trap handler
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>4. OS: Handle system call
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>5. VMM: Intercept return
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>6. VMM: Return to user mode
+</code></pre></div><p></p>
+<hr/>
+<h2 id="memory-virtualization-and-advanced-topics">Memory Virtualization and Advanced Topics<a class="headerlink" href="#memory-virtualization-and-advanced-topics" title="Permanent link">¶</a></h2>
+<hr/>
+<p><strong>Memory Virtualization Overview</strong><br/>
+- Multiple layers of address translation<br/>
+- Virtual → Physical → Machine addresses<br/>
+- VMM maintains additional mapping tables</p>
+<hr/>
+<p><strong>Address Translation Hierarchy</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>Virtual Address Space (Process)
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>        ↓
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>Physical Address Space (OS)
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>        ↓
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>Machine Address Space (VMM)
+</code></pre></div><p></p>
+<hr/>
+<p><strong>TLB Management</strong><br/>
+- Software-managed TLB systems<br/>
+- VMM intercepts TLB misses<br/>
+- Additional translation layer<br/>
+- Performance implications</p>
+<hr/>
+<p><strong>TLB Miss Handling (Traditional)</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>1. TLB miss occurs
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>2. Trap to OS
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>3. OS handles page table lookup
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>4. Update TLB
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>5. Resume execution
+</code></pre></div><p></p>
+<hr/>
+<p><strong>TLB Miss Handling (Virtualized)</strong><br/>
+</p><div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>1. TLB miss occurs
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>2. Trap to VMM
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>3. VMM forwards to OS
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>4. OS performs lookup
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>5. VMM intercepts TLB update
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>6. VMM installs correct mapping
+<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a>7. Resume execution
+</code></pre></div><p></p>
+<hr/>
+<p><strong>Performance Optimizations</strong><br/>
+- VMM-level software TLB<br/>
+- Shadow page tables<br/>
+- Hardware virtualization support<br/>
+- Para-virtualization techniques</p>
+<hr/>
+<p><strong>The Information Gap</strong><br/>
+- VMM’s limited knowledge of OS behavior<br/>
+- Examples:<br/>
+  * Idle loop detection<br/>
+  * Page zeroing<br/>
+  * Resource allocation</p>
+<hr/>
+<p><strong>Para-virtualization</strong><br/>
+- Modified OS for better VMM integration<br/>
+- Improved performance<br/>
+- Reduced virtualization overhead<br/>
+- Trade-off: Less transparency</p>
+<hr/>
+<p><strong>Modern Developments</strong><br/>
+- Hardware support (Intel VT-x, AMD-V)<br/>
+- I/O virtualization<br/>
+- Memory overcommitment<br/>
+- Hosted vs. bare-metal configurations<br/>
+- Containers</p>
+<hr/>
+<p><strong>Summary</strong><br/>
+- VMMs provide transparent OS multiplication<br/>
+- Key challenges in CPU and memory virtualization<br/>
+- Performance vs. transparency trade-offs<br/>
+- Growing importance in modern computing</p>
+<hr/>
+<h1 id="types-of-virtualization">Types of Virtualization<a class="headerlink" href="#types-of-virtualization" title="Permanent link">¶</a></h1>
+<hr/>
+<p><strong>Type 1 (Bare Metal)</strong><br/>
+- Runs directly on hardware without a host OS<br/>
+- Provides direct hardware access through a hypervisor<br/>
+- Offers better performance and security</p>
+<hr/>
+<p><strong>Type 2 (Hosted)</strong><br/>
+- Runs as an application on top of a host OS<br/>
+- Hardware access is mediated through the host OS<br/>
+- Generally slower than Type 1 but easier to use</p>
+<hr/>
+<h2 id="paravirtualization-relationship">Paravirtualization Relationship<a class="headerlink" href="#paravirtualization-relationship" title="Permanent link">¶</a></h2>
+<p>Paravirtualization represents a middle ground between full virtualization and emulation:</p>
+<ul>
+<li>Modifies guest OS to communicate directly with hypervisor</li>
+<li>Can work with both Type 1 and Type 2 hypervisors</li>
+<li>More efficient than full emulation but requires modified guests</li>
+</ul>
+<hr/>
+<h2 id="performance-considerations">Performance Considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">¶</a></h2>
+<p>The performance hierarchy from fastest to slowest is:</p>
+<ol>
+<li>Virtualization with direct hardware access (Type 1)</li>
+<li>Paravirtualization</li>
+<li>Hosted virtualization (Type 2)</li>
+<li>Full emulation</li>
+</ol>
+<p>This difference exists because emulation must translate every instruction between architectures, while virtualization can use the native hardware directly or with minimal translation</p>
+<hr/>
+<h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">¶</a></h1>
+<hr/>
+<h2 id="type-1-virtualization">Type 1 Virtualization<a class="headerlink" href="#type-1-virtualization" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Data Centers</strong>: VMware ESXi running multiple enterprise servers on bare metal</li>
+<li><strong>Cloud Providers</strong>: Microsoft Hyper-V powering Azure’s infrastructure (Note: WSL is actually Hyper-V!)</li>
+<li><strong>Enterprise Servers</strong>: Proxmox managing multiple business applications</li>
+</ul>
+<hr/>
+<h2 id="type-2-virtualization">Type 2 Virtualization<a class="headerlink" href="#type-2-virtualization" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Development Environments</strong>: VirtualBox running test environments on a developer’s laptop</li>
+<li><strong>Software Testing</strong>: VMware Workstation running multiple OS versions for compatibility testing</li>
+<li><strong>Home Labs</strong>: Running Windows and Linux simultaneously on a personal computer</li>
+</ul>
+<hr/>
+<h2 id="paravirtualization-examples">Paravirtualization Examples<a class="headerlink" href="#paravirtualization-examples" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Cloud Services</strong>: Amazon Web Services using Xen-based paravirtualization for EC2 instances</li>
+<li><strong>Linux Systems</strong>: KVM/QEMU implementing paravirtualization for improved performance</li>
+<li><strong>Enterprise Virtualization</strong>: Xen hypervisor managing resource-intensive workloads</li>
+</ul>
+<hr/>
+<h2 id="emulation-examples">Emulation Examples<a class="headerlink" href="#emulation-examples" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Legacy Systems</strong>: Emulating old MRI scanner control computers</li>
+<li><strong>Mobile Development</strong>: Android Studio’s emulator for app testing</li>
+<li><strong>Game Development</strong>: Nintendo Switch emulators for debugging</li>
+<li><strong>Industrial Applications</strong>: Emulating specialized microcontrollers for embedded systems testing</li>
+</ul>
+<hr/>
+<h2 id="real-world-hybrid-implementations">Real-World Hybrid Implementations<a class="headerlink" href="#real-world-hybrid-implementations" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Modern ARM Macs</strong>: Using both virtualization and emulation to run x86 Windows applications</li>
+<li><strong>Network Testing</strong>: GNS3 using both emulation and virtualization for network simulation</li>
+<li><strong>Development Environments</strong>: Using emulated mobile devices within virtualized development environments</li>
+</ul>
+<hr/>
+<p>The choice between these technologies often depends on specific needs:<br/>
+- Use emulation when you need to run software on incompatible hardware architectures<br/>
+- Use Type 1 virtualization for production environments requiring maximum performance<br/>
+- Use Type 2 virtualization for development and testing scenarios<br/>
+- Use paravirtualization when modified guest OS support is available and performance is critical</p>
+<hr/>
+<h2 id="virtualization-vs-emulation">Virtualization vs Emulation<a class="headerlink" href="#virtualization-vs-emulation" title="Permanent link">¶</a></h2>
+<hr/>
+<p><strong>Core Differences</strong></p>
+<ul>
+<li>Virtualization partitions existing hardware resources and allows direct hardware access</li>
+<li>Emulation completely mimics one system’s hardware on another, requiring full translation of instructions</li>
+<li>Virtualization is generally faster since it doesn’t need to translate between architectures</li>
+</ul>
+<hr/>
+<div class="md-source-file">
+<small>
+<!-- mkdocs-git-revision-date-localized-plugin -->
+<u>Last update</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+<!-- mkdocs-git-revision-date-plugin -->
+<br/>
+<u>Created</u> :
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2026 22:22:47 UTC">May 1, 2026</span>
+</small>
 </div>
+<!-- Was this page helpful? -->
+<!-- Comment system -->
+<script> 
+    try {
+      const index = document.querySelector('h1').innerHTML;
+      if (index === "Index") {
+        document.querySelector('h1').innerHTML = "Appendix B   Virtual Machine Monitors";
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  </script>
+</article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
 </div>
@@ -487,12 +991,13 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
-<script src="../_static/js/mathjax.js"></script>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.indexes", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../_static/js/mathjax.js"></script>
 <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script src="../_static/js/snippets.js"></script>
+<script src="../../_static/js/snippets.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/index.js"></script>
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html>
+</script></body></html><!-- Source file information --><!-- taken from 
+https://github.com/squidfunk/mkdocs-material/blob/master/src/partials/source-file.html -->
