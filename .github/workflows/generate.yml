@@ -11,7 +11,7 @@ on:
         type: string
         required: true
         description: "URL for the site/course"
-        default: "http://teaching.johnaedo.com/{{github.event.repository.name}}"
+        default: "http://teaching.johnaedo.com/cop4600"
       site_description:
         type: string
         required: true
