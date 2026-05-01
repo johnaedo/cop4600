@@ -1,0 +1,135 @@
+name: Repository Maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only print what would be done, don't make changes"
+        required: false
+        default: false
+        type: boolean
+      clean:
+        description: "Remove unused images from docs/"
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    - cron: "0 0 * * *" # Daily at midnight UTC
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    env:
+      AUTHOR_NAME: ${{ secrets.author_name || 'github-actions[bot]' }}
+      AUTHOR_EMAIL: ${{ secrets.author_email || 'github-actions[bot]@users.noreply.github.com' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install Python 3.13
+        run: uv python install 3.13
+
+      - name: Update dependencies
+        id: update
+        run: |
+          echo "📦 Updating dependencies..." >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "DRY RUN: would run \`uv lock --upgrade\`" >> $GITHUB_STEP_SUMMARY
+          else
+            uv lock --upgrade
+            echo "Dependencies updated." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Clean unused images
+        id: clean
+        # Finds images in docs/ that are not referenced in any markdown file
+        run: |
+          echo "🧹 Checking for unused images..." >> $GITHUB_STEP_SUMMARY
+          CLEAN="${{ inputs.clean }}"
+          # On a scheduled run (no inputs), default to true
+          if [ -z "$CLEAN" ]; then CLEAN="true"; fi
+
+          if [ "$CLEAN" = "true" ]; then
+            UNUSED=()
+            while IFS= read -r img; do
+              BASENAME=$(basename "$img")
+              if ! grep -r --include="*.md" -q "$BASENAME" docs/; then
+                UNUSED+=("$img")
+              fi
+            done < <(find docs/_assets/images -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.gif" -o -iname "*.webp" -o -iname "*.svg" \))
+
+            if [ ${#UNUSED[@]} -eq 0 ]; then
+              echo "No unused images found." >> $GITHUB_STEP_SUMMARY
+            else
+              echo "Unused images found:" >> $GITHUB_STEP_SUMMARY
+              for img in "${UNUSED[@]}"; do
+                echo "- $img" >> $GITHUB_STEP_SUMMARY
+                if [ "${{ inputs.dry_run }}" != "true" ]; then
+                  rm "$img"
+                fi
+              done
+              if [ "${{ inputs.dry_run }}" = "true" ]; then
+                echo "(DRY RUN: no files deleted)" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          else
+            echo "Image cleanup skipped." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Commit changes
+        if: ${{ inputs.dry_run != 'true' }}
+        run: |
+          git config user.name "${{ env.AUTHOR_NAME }}"
+          git config user.email "${{ env.AUTHOR_EMAIL }}"
+          git add -A
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit." >> $GITHUB_STEP_SUMMARY
+          else
+            git commit -m "chore: maintenance - update deps & clean images"
+            git push
+            echo "Changes committed and pushed." >> $GITHUB_STEP_SUMMARY
+          fi
+
+  deploy:
+    needs: maintenance
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Pull again after maintenance may have pushed changes
+          ref: master
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install Python 3.13
+        run: uv python install 3.13
+
+      - name: Install dependencies
+        run: uv sync --python 3.13
+
+      - name: Build and deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: uv run --python 3.13 mkdocs gh-deploy --force
