@@ -1,6 +1,6 @@
-site_name: COP 4331C - Processes of Object Oriented Software Development # Change this to your site name
+site_name: COP 4600 - Operating Systems # Change this to your site name
 site_description: Course notes, code demos, and tutorials
-site_url: https://johnaedo.github.io/cop4331c # Change this to your site URL
+site_url: https://johnaedo.github.io/cop4600 # Change this to your site URL
 site_author: Dr. John Aedo
 
 theme:
