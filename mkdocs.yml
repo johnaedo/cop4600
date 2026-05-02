@@ -5,8 +5,8 @@ site_author: Dr. John Aedo
 
 theme:
     name: 'material'
-    logo: _assets/meta/logo.png
-    favicon: _assets/meta/favicons.png
+    logo: _assets/meta/logo.svg
+    favicon: _assets/meta/favicons.svg
     custom_dir: overrides
     font:
         text: Karla
@@ -129,7 +129,7 @@ extra_css:
     - _static/css/customization.css
     - https://cdn.jsdelivr.net/gh/Enveloppe/_static@refs/heads/master/dist/styles.css
 extra:
-  SEO: '_assets/meta/logo.png'
+  SEO: '_assets/meta/logo.svg'
   comments: False
   attachments: '_assets/img/'
   no-auto-h1: False
