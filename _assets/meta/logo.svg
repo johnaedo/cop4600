@@ -1,0 +1,10 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" rx="14" fill="#FFC904"/>
+  <rect x="10" y="18" width="60" height="38" rx="4" fill="#1a1a1a"/>
+  <rect x="10" y="50" width="60" height="6" rx="0" fill="#111"/>
+  <rect x="28" y="56" width="24" height="5" rx="2" fill="#1a1a1a"/>
+  <rect x="22" y="61" width="36" height="3" rx="1.5" fill="#1a1a1a"/>
+  <text x="18" y="34" font-family="monospace" font-size="9" fill="#FFC904" font-weight="700">user@ucf:~$</text>
+  <text x="18" y="46" font-family="monospace" font-size="9" fill="#FFC904" opacity="0.6">./run_kernel</text>
+  <rect x="63" y="37" width="3" height="10" rx="1" fill="#FFC904" opacity="0.9"/>
+</svg>
