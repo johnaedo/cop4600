@@ -1,6 +1,7 @@
 ---
 share_cop4600: "true"
 site-folder: docs/Lecture Slides
+share_cop5611: "true"
 ---
 
 ## Questions Answered in this Lecture
