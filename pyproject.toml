@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "mkdocs",
+    "properdocs",
     "mkdocs-material",
     "mkdocs-awesome-pages-plugin",
     "mdx_breakless_lists",
