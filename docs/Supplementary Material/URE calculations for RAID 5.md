@@ -1,6 +1,7 @@
 ---
 share_cop4600: "true"
 site-folder: docs/Supplementary Material
+share_cop5611: "true"
 ---
 
 Original Source:  [RAID 5 Array: Probability of Failing to Rebuild Array](https://superuser.com/questions/1334674/raid-5-array-probability-of-failing-to-rebuild-array)
