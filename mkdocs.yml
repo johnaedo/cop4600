@@ -132,11 +132,6 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Enveloppe/
-  blog_list:
-    pagination: true
-    pagination_message: true
-    pagination_translation: 'posts in'
-    no_page_found: 'No pages found!'
   hooks:
     strip_comments: true
     fix_heading: true
