@@ -576,14 +576,16 @@ wheels = [
 
 [[package]]
 name = "mkdocs-revealjs"
-version = "0.8.5"
+version = "0.8.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "markdown" },
     { name = "mkdocs" },
+    { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6f/c2/cf53718df383c42d4a7f8c71840fcd42b2a9790d8a43e278d3819267ad38/mkdocs_revealjs-0.8.5.tar.gz", hash = "sha256:2bcdd5aa86bebc7f2c46148cd13f7ad5eb4fdb59c86493665dbf5f24b1d1a3fc", size = 37778, upload-time = "2026-03-10T16:59:29.614Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0a/89/eb20bc465c8c48cd38413459382fde00e1c0a1fb34f300bea736e88d8ac2/mkdocs_revealjs-0.8.7.tar.gz", hash = "sha256:17fcaa6d623e744d7bca5abeef132bf6d656b9963f4d47bd2119df5a1c687d05", size = 46359, upload-time = "2026-08-06T00:43:57.751Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/14/14/9de0da406b56f72c3e87a14ba06ba5436c2790a934a1a1273f38ca9b997e/mkdocs_revealjs-0.8.5-py3-none-any.whl", hash = "sha256:a26de6ce2c5465242cdb7cfbf0f0ebf0ed91ece89b059ab0372acc4198e476e9", size = 38667, upload-time = "2026-03-10T16:59:28.353Z" },
+    { url = "https://files.pythonhosted.org/packages/82/15/115f453c06121cc13327afc49628c095fe0e72d1a636573cefb85a111e6c/mkdocs_revealjs-0.8.7-py3-none-any.whl", hash = "sha256:60e5c39a1846f40a8e76222ff7f7e364dc5a1742e3486304abcd28c825df8b92", size = 41202, upload-time = "2026-08-06T00:43:56.791Z" },
 ]
 
 [[package]]
