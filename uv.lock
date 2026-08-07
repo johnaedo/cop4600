@@ -576,16 +576,16 @@ wheels = [
 
 [[package]]
 name = "mkdocs-revealjs"
-version = "0.8.7"
+version = "0.9.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown" },
     { name = "mkdocs" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0a/89/eb20bc465c8c48cd38413459382fde00e1c0a1fb34f300bea736e88d8ac2/mkdocs_revealjs-0.8.7.tar.gz", hash = "sha256:17fcaa6d623e744d7bca5abeef132bf6d656b9963f4d47bd2119df5a1c687d05", size = 46359, upload-time = "2026-08-06T00:43:57.751Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c0/d8/e2d04b189676f4ffe65e6217cd7ac3ac43ec561e8158f710989a0e13c6fe/mkdocs_revealjs-0.9.4.tar.gz", hash = "sha256:e2d1761b6c9711ca98e219fb267fcb96b8aee08724f9d0eaab43466a9a87674a", size = 56165, upload-time = "2026-08-06T23:47:01.779Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/82/15/115f453c06121cc13327afc49628c095fe0e72d1a636573cefb85a111e6c/mkdocs_revealjs-0.8.7-py3-none-any.whl", hash = "sha256:60e5c39a1846f40a8e76222ff7f7e364dc5a1742e3486304abcd28c825df8b92", size = 41202, upload-time = "2026-08-06T00:43:56.791Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/21/dbc621498d3b9ffc5ca67f85cc4edf4539444a4f4b21f5a7bee3cb1e84a2/mkdocs_revealjs-0.9.4-py3-none-any.whl", hash = "sha256:33b86a3e27288d87f89181d500003b39127a9032e44f2e63d86e991399cdf9b1", size = 47628, upload-time = "2026-08-06T23:47:00.785Z" },
 ]
 
 [[package]]
@@ -961,11 +961,11 @@ wheels = [
 
 [[package]]
 name = "soupsieve"
-version = "2.9.1"
+version = "2.9.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d9/38/e12680bbe6b4f8f3d17adcaf38d26850aa756c85cf4a80e79fc12a018fe8/soupsieve-2.9.1.tar.gz", hash = "sha256:c33e6605bbc71dd628b00c632d58ae607c22bade247e52553928f83bbb75b4ba", size = 122261, upload-time = "2026-07-21T16:57:17.452Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/69/99/a6ca3beb3ccacb41fb3321d8a60e5566f9e6467601ef8eba6a17e1b89778/soupsieve-2.9.2.tar.gz", hash = "sha256:4a55d8cf158a9c2e587fa4922f1bbb91d68ac829e2d6f25403a85747c71daf74", size = 122445, upload-time = "2026-08-07T00:57:24.801Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0f/2c/437fe806897c2d6cfdc3ee43a18da8bf8e568530a4ae9bac781541ca9896/soupsieve-2.9.1-py3-none-any.whl", hash = "sha256:4f4477399246b7a0c720a88ca2454b11cd6bb9ae4c9d170140786e916776c14c", size = 37404, upload-time = "2026-07-21T16:57:16.421Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/dc/ad025c1ee131eba60c69f4dd5779b18fcf1e6b21a343e2162a84d5d133c7/soupsieve-2.9.2-py3-none-any.whl", hash = "sha256:8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823", size = 37370, upload-time = "2026-08-07T00:57:23.524Z" },
 ]
 
 [[package]]
