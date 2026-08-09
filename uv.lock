@@ -576,16 +576,16 @@ wheels = [
 
 [[package]]
 name = "mkdocs-revealjs"
-version = "0.9.7"
+version = "0.10.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown" },
     { name = "mkdocs" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/43/ec064ea12d5371a0c2e6dd5b0d822718a6191abbf0cbec371d6a390b76da/mkdocs_revealjs-0.9.7.tar.gz", hash = "sha256:d5d20484819b1c47f77f41dde3c99c46fc0c5ea47e20b119c7c9d26fd7399c8f", size = 56158, upload-time = "2026-08-07T16:06:37.631Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d9/fb/34d1c38b669b67d5346f84979fd904a1fb169a3af98fe8315ce364875c7d/mkdocs_revealjs-0.10.1.tar.gz", hash = "sha256:37189b9f706a9a2770ca6fd3fb78f301e5c77cf5b9fe241e71d49f0d5972f4bc", size = 63404, upload-time = "2026-08-09T00:42:37.322Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ad/da/b032a8f1b40b1c42c10a7b5d66067e3eee51479c61feb79f035a4980f44c/mkdocs_revealjs-0.9.7-py3-none-any.whl", hash = "sha256:1c0da5b5f0d36b74a84e3ef43fbe084ccfba1f83298edff70fba156f1e30b913", size = 47628, upload-time = "2026-08-07T16:06:36.422Z" },
+    { url = "https://files.pythonhosted.org/packages/e5/4f/d60ededa5a131039a534825637beda320866788b4a3ee3fce52bacb1da2f/mkdocs_revealjs-0.10.1-py3-none-any.whl", hash = "sha256:7f092dad53678c9ebc4635ccb8ccb477593c75df21ba0e3e943b7d6ac148ddb7", size = 54189, upload-time = "2026-08-09T00:42:36.405Z" },
 ]
 
 [[package]]
@@ -934,11 +934,11 @@ wheels = [
 
 [[package]]
 name = "setuptools"
-version = "83.0.0"
+version = "84.0.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/34/26/f5d29e25ffdb535afef2d35cdb55b325298f96debd670da4c325e08d70f4/setuptools-83.0.0.tar.gz", hash = "sha256:025bccbbf0fa05b6192bc64ae1e7b16e001fd6d6d4d5de03c97b1c1ade523bef", size = 1154254, upload-time = "2026-07-04T15:31:22.699Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6d/44/f5da03a8ef95d369145c5bb53050e7877c9f3d312e128605fd9504829143/setuptools-84.0.0.tar.gz", hash = "sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73", size = 1168449, upload-time = "2026-08-08T18:27:58.365Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/40/e1e72872c6354b306daef1703549e8e83b4d43cfea356311bf722a043752/setuptools-83.0.0-py3-none-any.whl", hash = "sha256:29b23c360f22f414dc7336bb39178cc7bcbf6021ed2733cde173f09dba19abb3", size = 1008090, upload-time = "2026-07-04T15:31:20.885Z" },
+    { url = "https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl", hash = "sha256:51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670", size = 818216, upload-time = "2026-08-08T18:27:56.719Z" },
 ]
 
 [[package]]
