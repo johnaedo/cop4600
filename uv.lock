@@ -601,7 +601,7 @@ wheels = [
 
 [[package]]
 name = "mkdocs-git-revision-date-localized-plugin"
-version = "1.7.1"
+version = "1.7.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "babel" },
@@ -610,9 +610,9 @@ dependencies = [
     { name = "packaging" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5d/ad/88354f419681bbb3213cb03ec028995a2f02e7be8d31a34f66a9a8a3962a/mkdocs_git_revision_date_localized_plugin-1.7.1.tar.gz", hash = "sha256:b149e0f7bd7e5364de27039c767827423683f76d0d7e6cb9712eb8bd28804536", size = 84961, upload-time = "2026-11-24T20:33:20.537Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/25/bcca8e00580fe2d9fce451a66c61052d2111be15c8ec4e348449ceb0ec94/mkdocs_git_revision_date_localized_plugin-1.7.2.tar.gz", hash = "sha256:3e5963dce2e52c7ba3cb5de6e7a10d1f7836f275599df05b5ec2d587bed4e270", size = 84993, upload-time = "2026-11-26T13:25:46.473Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/db/d6/fe839e378c10a326bf8f0c38fe4102d0c01fc9e58a064758de6c0ed6fc75/mkdocs_git_revision_date_localized_plugin-1.7.1-py3-none-any.whl", hash = "sha256:1e0079569189a483fba98add74153e56e664e1e9f0d4fa6e8c5889d330aa16a7", size = 31943, upload-time = "2026-11-24T20:33:19.254Z" },
+    { url = "https://files.pythonhosted.org/packages/cf/51/17aef8cbe1a8f0a0470ca8d83d7def7f2381b89615bbddef1879f6f1f914/mkdocs_git_revision_date_localized_plugin-1.7.2-py3-none-any.whl", hash = "sha256:b875c5c3206261adb88ac97974212d87f16c1f47e90deb865c840cb58a3116d5", size = 31914, upload-time = "2026-11-26T13:25:45.098Z" },
 ]
 
 [[package]]
